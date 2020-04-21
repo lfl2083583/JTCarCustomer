@@ -1,0 +1,26 @@
+//
+//  ZTDataBase.h
+//  JTDirectSeeding
+//
+//  Created by apple on 2017/5/17.
+//  Copyright © 2017年 JTTeam. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+#import "sqlite3.h"
+
+#define kUserRelationsTable        @"kUserRelationsTable"       // 用户关系表
+#define kUserHistoricalTable       @"kUserHistoricalTable"      // 用户历史记录表
+#define kSessionBackgroundTable    @"kSessionBackgroundTable"   // 用户会话背景
+#define kDynamicNoticeMessageTable @"KDynamicNoticeMessageTable"// 用户动态通知消息表
+#define kDynamicUnReadCountTable   @"kDynamicUnReadCountTable"  // 用户动态新通知消息数量表
+
+@interface ZTDataBase : NSObject
+
+@property (assign, atomic) sqlite3 *db;
+
+- (void)openDB:(NSString *)tableName;
+- (void)closeDB;
+- (void)execute:(NSString *)sql;
+
+@end

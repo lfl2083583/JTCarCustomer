@@ -1,0 +1,27 @@
+# Uncomment the next line to define a global platform for your project
+# platform :ios, '9.0'
+
+target 'JTCarCustomers' do
+  pod 'SDWebImage', '~> 4.0.0'
+  pod 'AFNetworking', '~> 3.1.0'
+  pod 'MJExtension', '~> 3.0.13'
+  pod 'MJRefresh', '~> 3.1.12'
+  pod 'MBProgressHUD', '~> 1.0'
+  pod 'Masonry', '~> 1.0.2'
+  pod 'Qiniu', '~> 7.1'
+  pod 'TZImagePickerController', '~> 1.7.8'
+  pod 'UITableView+FDTemplateLayoutCell', '~> 1.4'
+  pod 'Mantle', '~> 2.1.0'
+  pod 'TTTAttributedLabel'
+  pod 'ReactiveObjC', '~> 2.1.2'
+  pod 'JLRoutes', '~> 2.0.1'
+  pod 'SDWebImage/GIF'
+  pod 'FLAnimatedImage', '~> 1.0.12'  
+  pod 'CocoaLumberjack'
+  pod 'MMDrawerController', '~> 0.6.0'
+  pod 'HMSegmentedControl', '~> 1.5.4'
+  pod 'SwipeTableView', '~> 0.2.6'
+  pod 'iCarousel', '~> 1.8.3'
+  pod 'MWPhotoBrowser', :podspec =>'https://raw.githubusercontent.com/y500/MWPhotoBrowser/master/MWPhotoBrowser.podspec'
+  pod 'WZLBadge', '~> 1.2.6'
+end

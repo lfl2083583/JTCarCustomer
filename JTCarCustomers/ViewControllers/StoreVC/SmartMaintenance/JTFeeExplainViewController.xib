@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="JTFeeExplainViewController">
+            <connections>
+                <outlet property="topConstraint" destination="Xza-lH-rBz" id="pHN-lJ-gi2"/>
+                <outlet property="view" destination="iN0-l3-epB" id="cBb-Qn-QJ5"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8OQ-bI-pUO">
+                    <rect key="frame" x="0.0" y="122" width="375" height="545"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Q: 什么是工时费？" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cUm-UU-c5R">
+                            <rect key="frame" x="24" y="13" width="326" height="17"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="17" id="h1S-SW-rtc"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="A:  工时费是溜车平台下旗舰店、连锁店、加盟店给车主用户进行服务定价，不同地区、不同门店的工时费不同。由店铺负责人设置更改，最终解释权由该店铺所有。" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l4a-Z5-EQK">
+                            <rect key="frame" x="24" y="37" width="326" height="67"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <color key="textColor" red="0.2666666667" green="0.2666666667" blue="0.2666666667" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Q: 什么是商品费" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hbw-gs-cj2">
+                            <rect key="frame" x="24" y="123" width="328" height="17"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="17" id="0f1-PR-XEX"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="A: 所选项目内包含所有商品的价格。" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="o8N-h1-m8n">
+                            <rect key="frame" x="24" y="147" width="326" height="17"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <color key="textColor" red="0.2666666667" green="0.2666666667" blue="0.2666666667" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="Hbw-gs-cj2" firstAttribute="leading" secondItem="8OQ-bI-pUO" secondAttribute="leading" constant="24" id="0Tb-62-AKG"/>
+                        <constraint firstItem="l4a-Z5-EQK" firstAttribute="top" secondItem="cUm-UU-c5R" secondAttribute="bottom" constant="7" id="9qD-Ps-dwW"/>
+                        <constraint firstAttribute="trailing" secondItem="Hbw-gs-cj2" secondAttribute="trailing" constant="23" id="Fvs-zV-F32"/>
+                        <constraint firstItem="cUm-UU-c5R" firstAttribute="centerX" secondItem="8OQ-bI-pUO" secondAttribute="centerX" id="Ggh-z4-QjR"/>
+                        <constraint firstItem="cUm-UU-c5R" firstAttribute="leading" secondItem="8OQ-bI-pUO" secondAttribute="leading" constant="24" id="HFx-2b-qIl"/>
+                        <constraint firstAttribute="trailing" secondItem="l4a-Z5-EQK" secondAttribute="trailing" constant="25" id="Lea-pF-ion"/>
+                        <constraint firstItem="l4a-Z5-EQK" firstAttribute="leading" secondItem="8OQ-bI-pUO" secondAttribute="leading" constant="24" id="Pbd-l1-AN9"/>
+                        <constraint firstItem="o8N-h1-m8n" firstAttribute="leading" secondItem="8OQ-bI-pUO" secondAttribute="leading" constant="24" id="Piu-rP-4mo"/>
+                        <constraint firstAttribute="trailing" secondItem="o8N-h1-m8n" secondAttribute="trailing" constant="25" id="QQ5-w8-0Lg"/>
+                        <constraint firstItem="cUm-UU-c5R" firstAttribute="top" secondItem="8OQ-bI-pUO" secondAttribute="top" constant="13" id="Spo-pn-j8d"/>
+                        <constraint firstItem="l4a-Z5-EQK" firstAttribute="centerX" secondItem="8OQ-bI-pUO" secondAttribute="centerX" id="fSr-iq-26c"/>
+                        <constraint firstItem="o8N-h1-m8n" firstAttribute="top" secondItem="Hbw-gs-cj2" secondAttribute="bottom" constant="7" id="p5s-OH-fmb"/>
+                        <constraint firstItem="Hbw-gs-cj2" firstAttribute="top" secondItem="l4a-Z5-EQK" secondAttribute="bottom" constant="19" id="t6q-1F-ds4"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Fp7-hE-LXh">
+                    <rect key="frame" x="0.0" y="64" width="375" height="60"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="预约的总金额以线下店铺消费为准。目前平台不支持线上结算订单" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wnv-7j-u7l">
+                            <rect key="frame" x="25" y="0.0" width="326" height="60"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="60" id="iY4-EA-owD"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <color key="textColor" red="0.26666666666666666" green="0.26666666666666666" blue="0.26666666666666666" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" red="0.96470588235294119" green="0.96470588235294119" blue="0.96470588235294119" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="60" id="4bA-7I-wwD"/>
+                        <constraint firstItem="wnv-7j-u7l" firstAttribute="leading" secondItem="Fp7-hE-LXh" secondAttribute="leading" constant="25" id="Z4L-SU-l1K"/>
+                        <constraint firstAttribute="trailing" secondItem="wnv-7j-u7l" secondAttribute="trailing" constant="24" id="bH0-3h-pHZ"/>
+                        <constraint firstItem="wnv-7j-u7l" firstAttribute="top" secondItem="Fp7-hE-LXh" secondAttribute="top" id="veq-0O-uWc"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="8OQ-bI-pUO" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="45F-ds-YS6"/>
+                <constraint firstAttribute="trailing" secondItem="8OQ-bI-pUO" secondAttribute="trailing" id="6X7-WT-dyw"/>
+                <constraint firstAttribute="trailing" secondItem="Fp7-hE-LXh" secondAttribute="trailing" id="TJf-y7-UcM"/>
+                <constraint firstItem="Fp7-hE-LXh" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="64" id="Xza-lH-rBz"/>
+                <constraint firstAttribute="bottom" secondItem="8OQ-bI-pUO" secondAttribute="bottom" id="YMm-40-NBh"/>
+                <constraint firstItem="8OQ-bI-pUO" firstAttribute="top" secondItem="Fp7-hE-LXh" secondAttribute="bottom" constant="-2" id="euj-PR-hdu"/>
+                <constraint firstItem="Fp7-hE-LXh" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="owb-HU-J2w"/>
+            </constraints>
+            <point key="canvasLocation" x="26.5" y="51.5"/>
+        </view>
+    </objects>
+</document>

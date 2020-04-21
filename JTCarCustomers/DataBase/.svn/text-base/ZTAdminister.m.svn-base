@@ -1,0 +1,178 @@
+//
+//  ZTAdminister.m
+//  JTDirectSeeding
+//
+//  Created by apple on 2017/5/17.
+//  Copyright © 2017年 JTTeam. All rights reserved.
+//
+
+#import "ZTAdminister.h"
+
+@implementation ZTAdminister
+
++ (void)sqlite_insert:(nullable NSString *)tableName model:(nullable id)model
+{
+    NSString *sql = nil;
+    if ([tableName isEqualToString:kUserRelationsTable]) {
+        [ZTAdminister sqlite_delete:tableName sql:[[NSString alloc] initWithFormat:@"delete from %@ where userID = '%@'", tableName, [model userID]]];
+        sql = [[NSString alloc] initWithFormat:@"insert into %@ (userID, relationsStauts, yunxinID) values ('%@', '%@', '%@')", tableName, [model userID], [model relationsStauts], [model yunxinID]];
+    }
+    else if ([tableName isEqualToString:kUserHistoricalTable])
+    {
+        [ZTAdminister sqlite_delete:tableName sql:[[NSString alloc] initWithFormat:@"delete from %@ where historicalType = %ld and historicalValue = %@", tableName, [model historicalType], [model historicalValue]]];
+        NSArray *list = [ZTAdminister sqlite_search:tableName searchKey:@"historicalType" searchValue:[NSString stringWithFormat:@"%ld", [model historicalType]]];
+        if (list.count > 6) {
+            for (NSInteger index = 6; index < list.count; index ++) {
+                [ZTAdminister sqlite_delete:tableName sql:[[NSString alloc] initWithFormat:@"delete from %@ where historicalType = %ld and historicalValue = %@", tableName, [model historicalType], list[index]]];
+            }
+        }
+        sql = [[NSString alloc] initWithFormat:@"insert into %@ (historicalType, historicalValue) values (%ld, '%@')", tableName, [model historicalType], [model historicalValue]];
+    }
+    else if ([tableName isEqualToString:kDynamicNoticeMessageTable])
+    {
+        [ZTAdminister sqlite_delete:tableName sql:[[NSString alloc] initWithFormat:@"delete from %@ where dynamicId = '%@' and commentId = '%@'", tableName, [model dynamicId], [model commentId]]];
+        sql = [[NSString alloc] initWithFormat:@"insert into %@ (toUserId, systemNoticType, dynamicType, dynamicId, dynamicContent, avatarUrl, nikeName, commentTime, commentId, commentContent, coverUrl, status) values ('%@', '%ld', '%ld', '%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@', '%ld')", tableName, [model toUserId], (long)[model systemNoticType], (long)[model dynamicType], [model dynamicId], [model dynamicContent], [model avatarUrl], [model nikeName], [model commentTime], [model commentId], [model commentContent], [model coverUrl], (long)[model status]];
+    }
+    else if ([tableName isEqualToString:kDynamicUnReadCountTable])
+    {
+        [ZTAdminister sqlite_delete:tableName sql:[[NSString alloc] initWithFormat:@"delete from %@ where userId = '%@'", tableName, [model userId]]];
+        sql = [[NSString alloc] initWithFormat:@"insert into %@ (userId, newDynamicCount ,unReadCommentCount) values ('%@', '%ld', '%ld')", tableName, [model userId], (long)[model newDynamicCount], (long)[model unReadCommentCount]];
+    }
+    else
+    {
+        [ZTAdminister sqlite_delete:tableName sql:[[NSString alloc] initWithFormat:@"delete from %@ where sessionID = '%@'", tableName, [model sessionID]]];
+        sql = [[NSString alloc] initWithFormat:@"insert into %@ (sessionID, background) values ('%@', '%@')", tableName, [model sessionID], [model background]];
+    }
+    ZTDataBase *_base = [[ZTDataBase alloc] init];
+    [_base openDB:tableName];
+    [_base execute:sql];
+    [_base closeDB];
+}
+
++ (void)sqlite_insert:(nullable NSString *)tableName modelArray:(nullable NSArray *)modelArray
+{
+    ZTDataBase *_base = [[ZTDataBase alloc] init];
+    [_base openDB:tableName];
+    sqlite3_exec(_base.db, "begin;", 0, 0, 0);
+    if ([tableName isEqualToString:kUserRelationsTable]) {
+        NSString *sql = [NSString stringWithFormat:@"insert into %@ (userID, relationsStauts, yunxinID) values(?, ?, ?)", tableName];
+        sqlite3_stmt *stmt;
+        if (sqlite3_prepare_v2(_base.db, [sql UTF8String], -1, &stmt, nil)) {
+        }
+        for (id model in modelArray) {
+            if ([model isKindOfClass:[JTUserRelationsModel class]]) {
+                sqlite3_reset(stmt);
+                sqlite3_bind_text(stmt, 1, [[model userID] UTF8String], -1, SQLITE_STATIC);
+                sqlite3_bind_text(stmt, 2, [[model relationsStauts] UTF8String], -1, SQLITE_STATIC);
+                sqlite3_bind_text(stmt, 3, [[model yunxinID] UTF8String], -1, SQLITE_STATIC);
+                sqlite3_step(stmt);
+            }
+        }
+        sqlite3_finalize(stmt);
+    }
+    sqlite3_exec(_base.db, "commit;", 0, 0, 0);
+    [_base closeDB];
+}
+
++ (void)sqlite_delete:(nullable NSString *)tableName sql:(NSString *_Nullable)sql
+{
+    ZTDataBase *_base = [[ZTDataBase alloc] init];
+    [_base openDB:tableName];
+    [_base execute:sql];
+    [_base closeDB];
+}
+
++ (void)sqlite_update:(nullable NSString *)tableName model:(nullable id)model
+{
+    ZTDataBase *_base = [[ZTDataBase alloc] init];
+    [_base openDB:tableName];
+    NSString *sql = nil;
+    if ([tableName isEqualToString:kUserRelationsTable]) {
+        sql = [[NSString alloc] initWithFormat:@"update %@ set relationsStauts = '%@' where userID = '%@'", tableName, [model relationsStauts], [model userID]];
+    } else if ([tableName isEqualToString:kDynamicNoticeMessageTable]){
+        sql = [[NSString alloc] initWithFormat:@"update %@ set status = '%ld' where dynamicId = '%@' and commentId = '%@'", tableName, (long)[model status], [model dynamicId], [model commentId]];
+    } else if ([tableName isEqualToString:kDynamicUnReadCountTable])
+    {
+         sql = [[NSString alloc] initWithFormat:@"update %@ set newDynamicCount = '%ld' and unReadCommentCount = '%ld' where userId = '%@'", tableName, (long)[model newDynamicCount], (long)[model unReadCommentCount], [model userId]];
+    }
+    else
+    {
+        
+    }
+    [_base execute:sql];
+    [_base closeDB];
+}
+
++ (nullable id)sqlite_search:(nullable NSString *)tableName searchKey:(nullable NSString *)searchKey searchValue:(nullable NSString *)searchValue
+{
+    NSMutableArray *_array = [NSMutableArray array];
+    ZTDataBase *_base = [[ZTDataBase alloc] init];
+    [_base openDB:tableName];
+    
+    NSString *sql = [[NSString alloc] initWithFormat:@"select *from %@ where %@ like '%@' order by numberID desc", tableName, searchKey, searchValue];
+    
+    sqlite3_stmt *stmt;
+    if (sqlite3_prepare_v2(_base.db, [sql UTF8String], -1, &stmt, nil)) {
+    }
+    while (sqlite3_step(stmt)==SQLITE_ROW) {
+        
+        if ([tableName isEqualToString:kUserRelationsTable]) {
+            JTUserRelationsModel *model = [[JTUserRelationsModel alloc] init];
+            model.userID                = [NSString stringWithUTF8String:(char *)(sqlite3_column_text(stmt, 1))];
+            model.relationsStauts       = [NSString stringWithUTF8String:(char *)(sqlite3_column_text(stmt, 2))];
+            model.yunxinID              = [NSString stringWithUTF8String:(char *)(sqlite3_column_text(stmt, 3))];
+            [_array addObject:model];
+        }
+        else if ([tableName isEqualToString:kUserHistoricalTable])
+        {
+            [_array addObject:[NSString stringWithUTF8String:(char *)(sqlite3_column_text(stmt, 2))]];
+        }
+        else if ([tableName isEqualToString:kDynamicNoticeMessageTable])
+        {
+            JTDynamicSystemNoticeModel *model = [[JTDynamicSystemNoticeModel alloc] init];
+            model.toUserId                    = [NSString stringWithUTF8String:(char *)(sqlite3_column_text(stmt, 1))];
+            model.systemNoticType             = sqlite3_column_int(stmt, 2);
+            model.dynamicType                 = sqlite3_column_int(stmt, 3);
+            model.dynamicId                   = [NSString stringWithUTF8String:(char *)(sqlite3_column_text(stmt, 4))];
+            model.dynamicContent              = [NSString stringWithUTF8String:(char *)(sqlite3_column_text(stmt, 5))];
+            model.avatarUrl                   = [NSString stringWithUTF8String:(char *)(sqlite3_column_text(stmt, 6))];
+            model.nikeName                    = [NSString stringWithUTF8String:(char *)(sqlite3_column_text(stmt, 7))];
+            model.commentTime                 = [NSString stringWithUTF8String:(char *)(sqlite3_column_text(stmt, 8))];
+            model.commentId                   = [NSString stringWithUTF8String:(char *)(sqlite3_column_text(stmt, 9))];
+            model.commentContent              = [NSString stringWithUTF8String:(char *)(sqlite3_column_text(stmt, 10))];
+            model.coverUrl                    = [NSString stringWithUTF8String:(char *)(sqlite3_column_text(stmt, 11))];
+            model.status                      = sqlite3_column_int(stmt, 12);
+            [_array addObject:model];
+        }
+        else if ([tableName isEqualToString:kDynamicUnReadCountTable])
+        {
+            JTDynamicSystemNoticeUnReadCountModel *unreadCountModel = [[JTDynamicSystemNoticeUnReadCountModel alloc] init];
+            unreadCountModel.userId             = [NSString stringWithUTF8String:(char *)(sqlite3_column_text(stmt, 1))];
+            unreadCountModel.newDynamicCount    = sqlite3_column_int(stmt, 2);
+            unreadCountModel.unReadCommentCount = sqlite3_column_int(stmt, 3);
+            [_array addObject:unreadCountModel];
+        }
+        else
+        {
+            [_array addObject:[NSString stringWithUTF8String:(char *)(sqlite3_column_text(stmt, 2))]];
+        }
+    }
+    sqlite3_finalize(stmt);
+    [_base closeDB];
+    return _array;
+}
+
++ (void)sqlite_insert:(nullable NSString *)tableName columnName:(nullable NSString *)columnName
+{
+}
+
++ (void)sqlite_truncate:(nullable NSString *)tableName
+{
+    ZTDataBase *_base = [[ZTDataBase alloc] init];
+    [_base openDB:tableName];
+    NSString *sql = [[NSString alloc] initWithFormat:@"delete from %@", tableName];
+    [_base execute:sql];
+    [_base closeDB];
+}
+
+@end

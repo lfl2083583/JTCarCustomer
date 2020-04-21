@@ -1,0 +1,166 @@
+//
+//  JTSocialRouterModel.h
+//  JTSocial
+//
+//  Created by apple on 2017/9/27.
+//  Copyright © 2017年 JTTeam. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+
+#define kJTSocialPlatformMessage  @"kJTSocialPlatformMessage"  // 成功消息
+#define kJTSocialPlatformError    @"kJTSocialPlatformError"    // 失败消息
+#define kErrorCode                @"kErrorCode"                // 失败代码
+#define kErrorMessage             @"kErrorMessage"             // 失败描述
+
+typedef NS_ENUM(NSInteger, JTSocialPlatformErrorType) {
+    JTSocialPlatformErrorType_Unknow                      = 1000,             // 未知错误
+    JTSocialPlatformErrorType_NotSupport                  = 1001,             // 不支持（url scheme 没配置，或者没有配置-ObjC， 或则SDK版本不支持或则客户端版本不支持）
+    JTSocialPlatformErrorType_AuthorizeFailed             = 1002,             // 授权失败
+    JTSocialPlatformErrorType_ShareFailed                 = 1003,             // 分享失败
+    JTSocialPlatformErrorType_PaymentFailed               = 1004,             // 支付失败
+    JTSocialPlatformErrorType_RequestForUserProfileFailed = 1005,             // 请求用户信息失败
+    JTSocialPlatformErrorType_ShareDataLack               = 1006,             // 分享内容缺少
+    JTSocialPlatformErrorType_ShareDataTypeIllegal        = 1007,             // 分享内容不支持
+    JTSocialPlatformErrorType_PaymentDataLack             = 1008,             // 支付内容缺少
+    JTSocialPlatformErrorType_CheckUrlSchemaFail          = 1009,             // schemaurl fail
+    JTSocialPlatformErrorType_NotInstall                  = 1010,             // 应用未安装
+    JTSocialPlatformErrorType_Cancel                      = 1011,             // 取消操作
+    JTSocialPlatformErrorType_Success                     = 1012,             // 操作成功
+    JTSocialPlatformErrorType_NotNetWork                  = 1013,             // 网络异常
+};
+
+typedef NS_ENUM(NSInteger, JTSocialShareType)
+{
+    JTSocialShareType_Friend              = 0, // 好友
+    JTSocialShareType_Team                = 1, // 群
+    JTSocialShareType_WechatSession       = 2, // 微信好友
+    JTSocialShareType_WechatTimeLine      = 3, // 微信朋友圈
+};
+
+typedef enum : NSUInteger {
+    
+    JTSocialShareContentTypeUrl   = 201, // 分享URL
+    JTSocialShareContentTypeImage = 202, // 分类图片
+    
+} JTSocialShareContentType;
+
+
+@interface JTSocialThirdUserInfo : NSObject
+
+/**
+ 游戏令牌
+ */
+@property (copy, nonatomic) NSString *gameToken;
+
+/**
+ 游戏令牌过期时间
+ */
+@property (copy, nonatomic) NSString *gameTokenTime;
+
+/**
+ 游戏三方ID
+ */
+@property (copy, nonatomic) NSString *gameOpenID;
+
+/**
+ 用户昵称
+ */
+@property (copy, nonatomic) NSString *userName;
+
+/**
+ 用户头像
+ */
+@property (copy, nonatomic) NSString *userAvatar;
+
+/**
+ 扩展字段，用于以后拓展
+ */
+@property (copy, nonatomic) NSString *ext;
+
+- (instancetype)initWithGameToken:(NSString *)gameToken
+                    gameTokenTime:(NSString *)gameTokenTime
+                       gameOpenID:(NSString *)gameOpenID
+                         userName:(NSString *)userName
+                       userAvatar:(NSString *)userAvatar
+                              ext:(NSString *)ext;
+
+@end
+
+@interface JTSocialThirdUrlObject : NSObject
+
+/**
+ 游戏ID
+ */
+@property (copy, nonatomic) NSString *gameID;
+
+/**
+ 分享ICON
+ */
+@property (copy, nonatomic) NSString *shareIcon;
+
+/**
+ 分享标题
+ */
+@property (copy, nonatomic) NSString *shareTitle;
+
+/**
+ 分享内容
+ */
+@property (copy, nonatomic) NSString *shareContent;
+
+/**
+ 游戏的appKey(用于跳转)
+ */
+@property (copy, nonatomic) NSString *appKey;
+
+/**
+ 分享游戏的拓展字段，游戏端去自定义设置，例如：利用扩张能直接进入房间进行游戏的参数
+ */
+@property (copy, nonatomic) NSString *ext;
+
+- (instancetype)initWithGameID:(NSString *)gameID
+                     shareIcon:(NSString *)shareIcon
+                    shareTitle:(NSString *)shareTitle
+                  shareContent:(NSString *)shareContent
+                           ext:(NSString *)ext;
+@end
+
+@interface JTSocialThirdImageObject : NSObject
+
+/**
+ 游戏ID
+ */
+@property (copy, nonatomic) NSString *gameID;
+
+/**
+ 分享的图片
+ */
+@property (copy, nonatomic) NSString *imageData;
+
+/**
+ 图片宽度
+ */
+@property (copy, nonatomic) NSString *imageWidth;
+
+/**
+ 分享高度
+ */
+@property (copy, nonatomic) NSString *imageHeight;
+
+/**
+ 游戏的appKey(用于跳转)
+ */
+@property (copy, nonatomic) NSString *appKey;
+
+@end
+
+@interface JTSocialRouterModel : NSObject
+
+@property (assign, nonatomic) BOOL isPower;
+@property (strong, nonatomic) NSString *appKey;
+
++ (instancetype)sharedCenter;
+
+@end

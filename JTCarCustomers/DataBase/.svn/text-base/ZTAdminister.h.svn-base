@@ -1,0 +1,77 @@
+//
+//  ZTAdminister.h
+//  JTDirectSeeding
+//
+//  Created by apple on 2017/5/17.
+//  Copyright © 2017年 JTTeam. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+#import "JTUserRelationsModel.h"
+#import "JTUserHistoricalModel.h"
+#import "JTSessionBackgroundModel.h"
+#import "ZTDataBase.h"
+#import "JTDynamicSystemNoticeModel.h"
+
+@interface ZTAdminister : NSObject
+
+
+/**
+ 插入数据
+
+ @param tableName 表名
+ @param model 数据模型
+ */
++ (void)sqlite_insert:(nullable NSString *)tableName model:(nullable id)model;
+
+/**
+ 批量插入数据
+ 
+ @param tableName 表名
+ @param modelArray 数据模型数组
+ */
++ (void)sqlite_insert:(nullable NSString *)tableName modelArray:(nullable NSArray *)modelArray;
+
+/**
+ 删除数据
+ 
+ @param tableName 表名
+ @param sql 条件语句
+ */
++ (void)sqlite_delete:(nullable NSString *)tableName sql:(NSString *_Nullable)sql;
+
+
+/**
+ 修改数据
+ 
+ @param tableName 表名
+ @param model 数据模型
+ */
++ (void)sqlite_update:(nullable NSString *)tableName model:(nullable id)model;
+
+
+/**
+ 查找数据
+
+ @param tableName 表名
+ @param searchKey 查找的键
+ @param searchValue 查找的键对应的值
+ @return 查到到的数据
+ */
++ (nullable id)sqlite_search:(nullable NSString *)tableName searchKey:(nullable NSString *)searchKey searchValue:(nullable NSString *)searchValue;
+
+/**
+ 掺入列
+
+ @param tableName 表名
+ @param columnName 列名
+ */
++ (void)sqlite_insert:(nullable NSString *)tableName columnName:(nullable NSString *)columnName;
+
+/**
+ 清除表数据
+
+ @param tableName 表名
+ */
++ (void)sqlite_truncate:(nullable NSString *)tableName;
+@end

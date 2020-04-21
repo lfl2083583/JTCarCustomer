@@ -1,0 +1,17 @@
+//
+//  JTUserHistoricalModel.h
+//  JTSocial
+//
+//  Created by apple on 2017/6/27.
+//  Copyright © 2017年 JTTeam. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+
+@interface JTUserHistoricalModel : NSObject
+
+@property (assign, nonatomic) NSInteger historicalType; //0.联系人 1.主播 2.群聊 3.聊天记录
+@property (strong, nonatomic) NSString *historicalValue;
+
+- (instancetype)initWithHistoricalType:(NSInteger)historicalType historicalValue:(NSString *)historicalValue;
+@end

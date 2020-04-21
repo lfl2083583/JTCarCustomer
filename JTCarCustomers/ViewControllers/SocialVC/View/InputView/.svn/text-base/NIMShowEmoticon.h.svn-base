@@ -1,0 +1,32 @@
+//
+//  NIMShowEmoticon.h
+//  JTSocial
+//
+//  Created by apple on 2017/7/21.
+//  Copyright © 2017年 JTTeam. All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+#import <FLAnimatedImage/FLAnimatedImageView.h>
+
+@protocol NIMShowEmoticonDelegate <NSObject>
+
+- (void)showEmoticon:(id)showEmoticon didSelectAtSource:(NSDictionary *)source;
+
+@end
+
+static NSString *eomticonIdentifier = @"NIMEomticonCollectionViewCell";
+
+@interface NIMEomticonCollectionViewCell : UICollectionViewCell
+
+@property (strong, nonatomic) FLAnimatedImageView *photo;
+
+@end
+
+@interface NIMShowEmoticon : UIView
+
+@property (strong, nonatomic) NSArray *items;
+@property (weak, nonatomic) id<NIMShowEmoticonDelegate> delegate;
+
+- (instancetype)initWithDelegate:(id<NIMShowEmoticonDelegate>)delegate;
+@end

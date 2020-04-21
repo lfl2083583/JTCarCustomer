@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 122
+/svn/thirdim/!svn/ver/2903/app/ios/JTSocial/JTSocial/JTSocial/Frameworks/LiveStreaming_iOS_SDK_V2.5.1/Normal%20SDK/include
+END
+LiveStreaming.h
+K 25
+svn:wc:ra_dav:version-url
+V 138
+/svn/thirdim/!svn/ver/2903/app/ios/JTSocial/JTSocial/JTSocial/Frameworks/LiveStreaming_iOS_SDK_V2.5.1/Normal%20SDK/include/LiveStreaming.h
+END
+nMediaLiveStreamingDefs.h
+K 25
+svn:wc:ra_dav:version-url
+V 148
+/svn/thirdim/!svn/ver/2903/app/ios/JTSocial/JTSocial/JTSocial/Frameworks/LiveStreaming_iOS_SDK_V2.5.1/Normal%20SDK/include/nMediaLiveStreamingDefs.h
+END
+LSAudioParaCtxConfiguration.h
+K 25
+svn:wc:ra_dav:version-url
+V 152
+/svn/thirdim/!svn/ver/2903/app/ios/JTSocial/JTSocial/JTSocial/Frameworks/LiveStreaming_iOS_SDK_V2.5.1/Normal%20SDK/include/LSAudioParaCtxConfiguration.h
+END
+LSStatisticsObject.h
+K 25
+svn:wc:ra_dav:version-url
+V 143
+/svn/thirdim/!svn/ver/2903/app/ios/JTSocial/JTSocial/JTSocial/Frameworks/LiveStreaming_iOS_SDK_V2.5.1/Normal%20SDK/include/LSStatisticsObject.h
+END
+LSVideoParaCtxConfiguration.h
+K 25
+svn:wc:ra_dav:version-url
+V 152
+/svn/thirdim/!svn/ver/2903/app/ios/JTSocial/JTSocial/JTSocial/Frameworks/LiveStreaming_iOS_SDK_V2.5.1/Normal%20SDK/include/LSVideoParaCtxConfiguration.h
+END
+LSMediaCapture.h
+K 25
+svn:wc:ra_dav:version-url
+V 139
+/svn/thirdim/!svn/ver/2903/app/ios/JTSocial/JTSocial/JTSocial/Frameworks/LiveStreaming_iOS_SDK_V2.5.1/Normal%20SDK/include/LSMediaCapture.h
+END
+LSLiveStreamingParaCtxConfiguration.h
+K 25
+svn:wc:ra_dav:version-url
+V 160
+/svn/thirdim/!svn/ver/2903/app/ios/JTSocial/JTSocial/JTSocial/Frameworks/LiveStreaming_iOS_SDK_V2.5.1/Normal%20SDK/include/LSLiveStreamingParaCtxConfiguration.h
+END

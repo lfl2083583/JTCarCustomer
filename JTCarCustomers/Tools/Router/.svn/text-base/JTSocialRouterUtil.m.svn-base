@@ -1,0 +1,458 @@
+//
+//  JTSocialRouterUtil.m
+//  JTSocial
+//
+//  Created by apple on 2017/9/15.
+//  Copyright © 2017年 JTTeam. All rights reserved.
+//
+
+#import "JTSocialRouterUtil.h"
+#import <JLRoutes.h>
+#import <objc/runtime.h>
+
+#import "JTLivePreviewViewCtl.h"
+#import "UIViewController+DDXib.h"
+#import "JTLivePlayerViewController+Expand.h"
+#import "JTCallInViewController.h"
+#import "JTBaseNavigationController.h"
+#import "JTUserListViewController.h"
+#import "JTGroupListViewController.h"
+#import "JTGetPowerViewController.h"
+#import "JTTradeWebViewController.h"
+#import "JTMessageMaker.h"
+#import "ShareViewTool.h"
+
+NSString * const JTPlatformLiveShow = @"JTPlatformLiveShow";
+NSString * const JTPlatformWatchLive = @"JTPlatformWatchLive";
+NSString * const JTPlatformCallVideoIn = @"JTPlatformCallVideoIn";
+NSString * const JTPlatformCallAudioIn = @"JTPlatformCallAudioIn";
+NSString * const JTPlatformShareToSocial = @"JTPlatformShareToSocial";
+NSString * const JTPlatformNextPage = @"JTPlatformNextPage";
+NSString * const JTPlatformClosePage = @"JTPlatformClosePage";
+NSString * const JTPlatformGetPower = @"JTPlatformGetPower";
+NSString * const JTPlatformOpenGame = @"JTPlatformOpenGame";
+NSString * const JTPlatformPaymentResults = @"JTPlatformPaymentResults";
+
+@implementation JTSocialRouterUtil
+
++ (instancetype)sharedCenter
+{
+    static JTSocialRouterUtil *instance = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        instance = [[JTSocialRouterUtil alloc] init];
+    });
+    return instance;
+}
+
+- (BOOL)handleOpenURL:(NSURL *)url
+{
+    if ([[JLRoutes routesForScheme:kJTSocialScheme] routeURL:url]) {
+        return YES;
+    }
+    else
+    {
+        return NO;
+    }
+}
+
+- (void)registerRouterWithScheme
+{
+    __weak typeof(self) weakself = self;
+    [[JLRoutes routesForScheme:kJTSocialScheme] addRoutes:@[JTPlatformLiveShow, JTPlatformWatchLive, JTPlatformCallVideoIn, JTPlatformCallAudioIn, JTPlatformShareToSocial, JTPlatformNextPage, JTPlatformClosePage, JTPlatformGetPower, JTPlatformPaymentResults] handler:^BOOL(NSDictionary<NSString *,id> * _Nonnull parameters) {
+        BOOL isValid = [JTUserInfo shareUserInfo].isLogin;
+        if (isValid) {
+            if (parameters && parameters.count > 0 && [parameters objectForKey:JLRoutePatternKey])
+            {
+                if ([parameters[JLRoutePatternKey] isEqualToString:JTPlatformLiveShow])
+                {
+                    [weakself liveShowPressed];
+                }
+                else if ([parameters[JLRoutePatternKey] isEqualToString:JTPlatformWatchLive])
+                {
+                    [weakself watchLivePressed:parameters];
+                }
+                else if ([parameters[JLRoutePatternKey] isEqualToString:JTPlatformCallVideoIn])
+                {
+                    [weakself callVideoInPressed:parameters];
+                }
+                else if ([parameters[JLRoutePatternKey] isEqualToString:JTPlatformCallAudioIn])
+                {
+                    [weakself callAudioInPressed:parameters];
+                }
+                else if ([parameters[JLRoutePatternKey] isEqualToString:JTPlatformShareToSocial])
+                {
+                    [weakself shareToSocialPressed:parameters];
+                }
+                else if ([parameters[JLRoutePatternKey] isEqualToString:JTPlatformNextPage])
+                {
+                    [weakself nextPagePressed:parameters];
+                }
+                else if ([parameters[JLRoutePatternKey] isEqualToString:JTPlatformClosePage])
+                {
+                    [weakself closePagePressed:parameters];
+                }
+                else if ([parameters[JLRoutePatternKey] isEqualToString:JTPlatformGetPower])
+                {
+                    [weakself getPowerPressed:parameters];
+                }
+                else if ([parameters[JLRoutePatternKey] isEqualToString:JTPlatformPaymentResults])
+                {
+                    [weakself paymentResultsPressed:parameters];
+                }
+            }
+        }
+        else
+        {
+            if ([parameters[JLRoutePatternKey] isEqualToString:JTPlatformGetPower])
+            {
+                if ([parameters objectForKey:@"appKey"]) {
+                    [JTSocialRouterModel sharedCenter].isPower = YES;
+                    [JTSocialRouterModel sharedCenter].appKey = parameters[@"appKey"];
+                }
+            }
+        }
+        return isValid;
+    }];
+}
+
+- (void)paramToViewController:(UIViewController *)viewController parameters:(NSDictionary<NSString *, NSString *> *)parameters {
+    
+    if (viewController.class) {
+        unsigned int outCount, i;
+        // 获取对象里的属性列表 默认返回第一个
+        objc_property_t *properties = class_copyPropertyList([viewController class], &outCount);
+        
+        for (i = 0; i < outCount; i++) {
+            objc_property_t property = properties[i];
+            //  属性名转成字符串
+            NSString *propertyName = [[NSString alloc] initWithCString:property_getName(property) encoding:NSUTF8StringEncoding];
+            NSString *param = parameters[propertyName];
+            if (param != nil) {
+                [viewController setValue:param forKey:propertyName];
+            }
+        }
+        free(properties);
+    }
+}
+
+/**
+ 开启直播
+ */
+- (void)liveShowPressed
+{
+    [JTDeviceAccess checkNetworkEnable:@"在移动网络环境下开启直播会消耗您的流量，是否继续开启" result:^(BOOL result) {
+        if (result) {
+            [JTDeviceAccess checkMicrophoneEnable:@"麦克风权限受限,无法直播" result:^(BOOL result) {
+                if (result) {
+                    [JTDeviceAccess checkCameraEnable:@"相机权限受限,无法直播" result:^(BOOL result) {
+                        if (result) {
+                            JTLivePreviewViewCtl *ctl = [JTLivePreviewViewCtl instanceFromXib];
+                            JTBaseNavigationController *nav = [[JTBaseNavigationController alloc] initWithRootViewController:ctl];
+                            [[Utility currentViewController] presentViewController:nav animated:YES completion:nil];
+                        }
+                    }];
+                }
+            }];
+        }
+    }];
+}
+
+/**
+ 观看直播
+ */
+- (void)watchLivePressed:(NSDictionary *)parameters
+{
+    if ([parameters objectForKey:@"roomID"]) {
+        if ([JTSocialStautsUtil sharedCenter].liveStatus == JTLiveStatusLiving) {
+            [[HUDTool shareHUDTool] showHint:QTLocalizedString(@"您正在直播中，暂时不能观看对方的直播")];
+        }
+        else if ([JTSocialStautsUtil sharedCenter].liveStatus == JTLiveStatusWatching) {
+            [[JTSocialStautsUtil sharedCenter].livePlayerViewCtl changeToNewLiveWithRoomID:parameters[@"roomID"]];
+        }
+        else {
+            [JTLivePlayerViewController joinLiveWithViewCtl:[Utility currentViewController] roomID:parameters[@"roomID"]];
+        }
+    }
+    else {
+        [[HUDTool shareHUDTool] showHint:@"传入参数非法"];
+    }
+}
+
+/**
+ 拨打视频聊天
+
+ @param parameters parameters description
+ */
+- (void)callVideoInPressed:(NSDictionary *)parameters
+{
+    if ([parameters objectForKey:@"callee"]) {
+        if ([[NIMSDK sharedSDK].userManager isMyFriend:parameters[@"callee"]]) {
+            [JTDeviceAccess checkNetworkEnable:@"在移动网络环境下开启音视频会消耗您的流量，是否继续开启" result:^(BOOL result) {
+                if (result) {
+                    [JTDeviceAccess checkMicrophoneEnable:@"麦克风权限受限,无法视频聊天" result:^(BOOL result) {
+                        if (result) {
+                            [JTDeviceAccess checkCameraEnable:@"相机权限受限,无法视频聊天" result:^(BOOL result) {
+                                if (result) {
+                                    JTCallInViewController *callInVC = [[JTCallInViewController alloc] initWithNibName:@"JTCallInViewController" bundle:nil];
+                                    callInVC.callee = [parameters objectForKey:@"callee"];
+                                    callInVC.callType = NIMNetCallMediaTypeVideo;
+                                    [[Utility currentViewController] presentViewController:callInVC animated:YES completion:nil];
+                                }
+                            }];
+                        }
+                    }];
+                }
+            }];
+        }
+        else
+        {
+            [[HUDTool shareHUDTool] showHint:@"您还没有添加对方为好友"];
+        }
+    }
+    else
+    {
+        [[HUDTool shareHUDTool] showHint:@"传入参数非法"];
+    }
+}
+
+/**
+ 拨打语音聊天
+
+ @param parameters parameters description
+ */
+- (void)callAudioInPressed:(NSDictionary *)parameters
+{
+    if ([parameters objectForKey:@"callee"]) {
+        if ([[NIMSDK sharedSDK].userManager isMyFriend:parameters[@"callee"]]) {
+            [JTDeviceAccess checkNetworkEnable:@"在移动网络环境下开启音视频会消耗您的流量，是否继续开启" result:^(BOOL result) {
+                if (result) {
+                    [JTDeviceAccess checkMicrophoneEnable:@"麦克风权限受限,无法语音聊天" result:^(BOOL result) {
+                        if (result) {
+                            JTCallInViewController *callInVC = [[JTCallInViewController alloc] initWithNibName:@"JTCallInViewController" bundle:nil];
+                            callInVC.callee = [parameters objectForKey:@"callee"];
+                            callInVC.callType = NIMNetCallMediaTypeAudio;
+                            [[Utility currentViewController] presentViewController:callInVC animated:YES completion:nil];
+                        }
+                    }];
+                }
+            }];
+        }
+        else
+        {
+            [[HUDTool shareHUDTool] showHint:@"您还没有添加对方为好友"];
+        }
+    }
+    else
+    {
+        [[HUDTool shareHUDTool] showHint:@"传入参数非法"];
+    }
+}
+
+/**
+ 分享导航
+
+ @param parameters parameters description
+ */
+- (void)shareToSocialPressed:(NSDictionary *)parameters
+{
+    if ([parameters objectForKey:@"appKey"] && [parameters objectForKey:@"shareType"] && [parameters objectForKey:@"message"]) {
+        
+        [self handlePlatformShareParameters:parameters complete:^(id message) {
+            if (message) {
+                JTSocialShareType shareType = [[parameters objectForKey:@"shareType"] integerValue];
+                JTSocialShareContentType shareContentType = [[parameters objectForKey:@"shareContentType"] integerValue];
+                switch (shareType) {
+                    case JTSocialShareType_Friend:
+                    {
+                        JTContactFriendConfig *config = [[JTContactFriendConfig alloc] init];
+                        config.contactSelectType = JTContactSelectTypeThirdShare;
+                        config.needMutiSelected = NO;
+                        JTUserListViewController *userListVC = [[JTUserListViewController alloc] initWithConfig:config message:message];
+                        JTBaseNavigationController *navigationController = [[JTBaseNavigationController alloc] initWithRootViewController:userListVC];
+                        [[Utility currentViewController] presentViewController:navigationController animated:YES completion:nil];
+                    }
+                        break;
+                    case JTSocialShareType_Team:
+                    {
+                        JTGroupListViewController *groupListVC = [[JTGroupListViewController alloc] initWithMessage:message];
+                        JTBaseNavigationController *navigationController = [[JTBaseNavigationController alloc] initWithRootViewController:groupListVC];
+                        [[Utility currentViewController] presentViewController:navigationController animated:YES completion:nil];
+                    }
+                        break;
+                    case JTSocialShareType_WechatSession:
+                    {
+                        [[ShareViewTool loadGuide] shareInfoFromUMWithPlatform:0 shareContentType:(ShareContentType)shareContentType withMessageObject:message withResult:^(NSError *error) {
+                        }];
+                    }
+                        break;
+                    case JTSocialShareType_WechatTimeLine:
+                    {
+                        [[ShareViewTool loadGuide] shareInfoFromUMWithPlatform:2 shareContentType:(ShareContentType)shareContentType withMessageObject:message withResult:^(NSError *error) {
+                        }];
+                    }
+                        break;
+                    default:
+                        [[HUDTool shareHUDTool] showHint:@"传入参数非法"];
+                        break;
+                }
+            }
+            else
+            {
+                [[HUDTool shareHUDTool] showHint:@"传入参数非法"];
+            }
+        }];
+    }
+    else
+    {
+        [[HUDTool shareHUDTool] showHint:@"传入参数非法"];
+    }
+}
+
+/**
+ 打开下一个页面
+
+ @param parameters parameters description
+ */
+- (void)nextPagePressed:(NSDictionary *)parameters
+{
+    if ([parameters objectForKey:@"className"]) {
+        UIViewController *viewController = [self validateClassName:parameters[@"className"]];
+        if (viewController) {
+            [[Utility currentViewController] presentViewController:viewController animated:YES completion:nil];
+        }
+        else
+        {
+            [[HUDTool shareHUDTool] showHint:@"传入参数非法"];
+        }
+    }
+    else
+    {
+        [[HUDTool shareHUDTool] showHint:@"传入参数非法"];
+    }
+}
+
+/**
+ 关闭页面
+
+ @param parameters parameters description
+ */
+- (void)closePagePressed:(NSDictionary *)parameters
+{
+    if ([parameters objectForKey:@"className"]) {
+        UIViewController *viewController = [self validateClassName:parameters[@"className"]];
+        if (viewController) {
+            [viewController dismissViewControllerAnimated:YES completion:nil];
+        }
+        else
+        {
+            [[HUDTool shareHUDTool] showHint:@"传入参数非法"];
+        }
+    }
+    else
+    {
+        [[HUDTool shareHUDTool] showHint:@"传入参数非法"];
+    }
+}
+
+/**
+ 第三方获取权限
+
+ @param parameters parameters description
+ */
+- (void)getPowerPressed:(NSDictionary *)parameters
+{
+    if ([parameters objectForKey:@"appKey"]) {
+        JTGetPowerViewController *getPowerVC = [[JTGetPowerViewController alloc] initWithAppKey:parameters[@"appKey"]];
+        JTBaseNavigationController *navigationController = [[JTBaseNavigationController alloc] initWithRootViewController:getPowerVC];
+        [[Utility currentViewController] presentViewController:navigationController animated:YES completion:nil];
+    }
+    else
+    {
+        [[HUDTool shareHUDTool] showHint:@"传入参数非法"];
+    }
+}
+
+/**
+ 支付结果处理（只停留在充值列表页面才处理）
+
+ @param parameters parameters description
+ */
+- (void)paymentResultsPressed:(NSDictionary *)parameters
+{
+    if ([parameters objectForKey:@"url"]) {
+        if ([[Utility currentViewController] isKindOfClass:[JTTradeWebViewController class]]) {
+            [(JTTradeWebViewController *)[Utility currentViewController] changeURLAddress:parameters[@"url"]];
+        }
+    }
+    else
+    {
+        [[HUDTool shareHUDTool] showHint:@"传入参数非法"];
+    }
+}
+
+- (void)handlePlatformShareParameters:(NSDictionary *)parameters complete:(void (^)(id message))complete
+{
+    JTSocialShareType shareType = [[parameters objectForKey:@"shareType"] integerValue];
+    JTSocialShareContentType shareContentType = [[parameters objectForKey:@"shareContentType"] integerValue];
+    if (shareType == JTSocialShareType_Friend || shareType == JTSocialShareType_Team) {
+        [[HttpRequestTool sharedInstance] postWithURLString:kBase_url(@"v1/open/game/detail") parameters:@{@"app_key": parameters[@"appKey"]} success:^(id responseObject) {
+            
+            NSDictionary *sourceDic = [responseObject objectForKey:@"data"];
+            if (shareContentType == JTSocialShareContentTypeUrl) {
+                JTSocialThirdUrlObject *object = [JTSocialThirdUrlObject mj_objectWithKeyValues:[parameters[@"message"] base64DecodedString]];
+                object.appKey = parameters[@"appKey"];
+                NIMMessage *message = [JTMessageMaker messageWithGameCard:object.gameID gameName:sourceDic[@"gname"] gameIcon:sourceDic[@"icon"] shareIcon:object.shareIcon shareTitle:object.shareTitle shareContent:object.shareContent appKey:object.appKey ext:object.ext];
+                complete(message);
+            }
+            else
+            {
+                JTSocialThirdImageObject *object = [JTSocialThirdImageObject mj_objectWithKeyValues:[parameters[@"message"] base64DecodedString]];
+                object.appKey = parameters[@"appKey"];
+                UIImage *image = [self dataURLImage:object.imageData];
+                [[HttpRequestTool sharedInstance] uploadWithFileName:@"" uploadFileArr:@[image] success:^(id responseObject) {
+                    NIMMessage *message = [JTMessageMaker messageWithGamePhoto:object.gameID gameName:sourceDic[@"gname"] gameIcon:sourceDic[@"icon"] gameImage:[responseObject firstObject] imageWidth:object.imageWidth imageHeight:object.imageHeight appKey:object.appKey];
+                    complete(message);
+                } failure:^(NSError *error) {
+                    complete(nil);
+                }];
+            }
+            
+        } failure:^(NSError *error) {
+            complete(nil);
+        }];
+    }
+    else
+    {
+        if (shareContentType == JTSocialShareContentTypeUrl) {
+            JTSocialThirdUrlObject *object = [JTSocialThirdUrlObject mj_objectWithKeyValues:[parameters[@"message"] base64DecodedString]];
+            NSDictionary *shareInfo = @{ShareUrl: kShareUrl, ShareTitle: object.shareTitle, ShareDescribe: object.shareContent, ShareThumbURL: object.shareIcon};
+            complete(shareInfo);
+        }
+        else
+        {
+            JTSocialThirdImageObject *object = [JTSocialThirdImageObject mj_objectWithKeyValues:[parameters[@"message"] base64DecodedString]];
+            UIImage *image = [self dataURLImage:object.imageData];
+            complete(image);
+        }
+    }
+}
+
+- (UIImage *)dataURLImage:(NSString *)string
+{
+    return [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:string]]];
+}
+
+- (UIViewController *)validateClassName:(NSString *)className
+{
+    Class newClass = NSClassFromString(className);
+    if (newClass) {
+        id instance = [[newClass alloc] init];
+        if ([instance isKindOfClass:[UIViewController class]]) {
+            return instance;
+        }
+    }
+    return nil;
+}
+
+@end

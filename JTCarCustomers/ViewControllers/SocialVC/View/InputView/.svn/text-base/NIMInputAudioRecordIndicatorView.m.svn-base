@@ -1,0 +1,133 @@
+//
+//  NIMInputAudioRecordIndicatorView.m
+//  NIMKit
+//
+//  Created by chris.
+//  Copyright (c) 2015年 NetEase. All rights reserved.
+//
+
+#import "NIMInputAudioRecordIndicatorView.h"
+#import "UIImage+Chat.h"
+
+#define NIMKit_ViewWidth 150
+#define NIMKit_ViewHeight 150
+
+#define NIMKit_TimeFontSize 30
+#define NIMKit_TipFontSize 15
+
+@interface NIMInputAudioRecordIndicatorView ()
+{
+    UIImageView *_tipBackgroundView;
+    UIImageView *_tipArrowView;
+    UIImageView *_microphoneView;
+}
+
+@property (nonatomic, strong) UIImageView *powerView;
+
+@property (nonatomic, strong) UILabel *tipLabel;
+
+@end
+
+@implementation NIMInputAudioRecordIndicatorView
+
+- (instancetype)init {
+    self = [super init];
+    if(self) {
+        
+        self.frame = CGRectMake(0, 0, NIMKit_ViewWidth, NIMKit_ViewHeight);
+        self.layer.backgroundColor = UIColorFromRGBoraAlpha(0x000000, .5).CGColor;
+        self.layer.cornerRadius = 10;
+        
+        _tipBackgroundView = [[UIImageView alloc] init];
+        _tipBackgroundView.backgroundColor = RGBCOLOR(196, 51, 55, 1);
+        _tipBackgroundView.hidden = YES;
+        _tipBackgroundView.frame = CGRectMake(0, NIMKit_ViewHeight - 34, NIMKit_ViewWidth, 34);
+        [self setCornerOnBottom:_tipBackgroundView];
+        [self addSubview:_tipBackgroundView];
+        
+        _tipArrowView = [[UIImageView alloc] initWithImage:[UIImage jt_imageInKit:@"icon_input_arrow"]];
+        _tipArrowView.frame = CGRectMake((NIMKit_ViewWidth-CGRectGetWidth(_tipArrowView.frame))/2, (CGRectGetMinY(_tipBackgroundView.frame)-CGRectGetHeight(_tipArrowView.frame))/2, CGRectGetWidth(_tipArrowView.frame), CGRectGetHeight(_tipArrowView.frame));
+        [self addSubview:_tipArrowView];
+        
+        _microphoneView = [[UIImageView alloc] initWithImage:[UIImage jt_imageInKit:@"icon_input_microphone"]];
+        _microphoneView.frame = CGRectMake(35, (CGRectGetMinY(_tipBackgroundView.frame)-CGRectGetHeight(_microphoneView.frame))/2, CGRectGetWidth(_microphoneView.frame), CGRectGetHeight(_microphoneView.frame));
+        [self addSubview:_microphoneView];
+        
+        _powerView = [[UIImageView alloc] initWithImage:[UIImage jt_imageInKit:@"icon_input_power1"]];
+        _powerView.frame = CGRectMake(CGRectGetMaxX(_microphoneView.frame)+20, (CGRectGetMinY(_tipBackgroundView.frame)-CGRectGetHeight(_powerView.frame))/2, CGRectGetWidth(_powerView.frame), CGRectGetHeight(_powerView.frame));
+        [self addSubview:_powerView];
+        
+        _tipLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+        _tipLabel.font = [UIFont systemFontOfSize:NIMKit_TipFontSize];
+        _tipLabel.textColor = [UIColor whiteColor];
+        _tipLabel.textAlignment = NSTextAlignmentCenter;
+        _tipLabel.text = @"手指上滑，取消发送";
+        [self addSubview:_tipLabel];
+        
+        self.phase = AudioRecordPhaseEnd;
+    }
+    return self;
+}
+
+- (void)setCornerOnBottom:(UIView *)view
+{
+    UIBezierPath *maskPath;
+    maskPath = [UIBezierPath bezierPathWithRoundedRect:view.bounds
+                                     byRoundingCorners:(UIRectCornerBottomLeft | UIRectCornerBottomRight)
+                                           cornerRadii:CGSizeMake(10.0f, 10.0f)];
+    CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
+    maskLayer.frame = view.bounds;
+    maskLayer.path = maskPath.CGPath;
+    view.layer.mask = maskLayer;
+}
+
+- (void)setPower:(CGFloat)power
+{
+    if (power > -3) {
+        _powerView.image = [UIImage jt_imageInKit:@"icon_input_power7"];
+    }
+    else if (power > - 7) {
+        _powerView.image = [UIImage jt_imageInKit:@"icon_input_power6"];
+    }
+    else if (power > - 10) {
+        _powerView.image = [UIImage jt_imageInKit:@"icon_input_power5"];
+    }
+    else if (power > - 15) {
+        _powerView.image = [UIImage jt_imageInKit:@"icon_input_power4"];
+    }
+    else if (power > - 20) {
+        _powerView.image = [UIImage jt_imageInKit:@"icon_input_power3"];
+    }
+    else if (power > - 25) {
+        _powerView.image = [UIImage jt_imageInKit:@"icon_input_power2"];
+    }
+    else
+    {
+        _powerView.image = [UIImage jt_imageInKit:@"icon_input_power1"];
+    }
+}
+
+- (void)setPhase:(NIMAudioRecordPhase)phase {
+    if(phase == AudioRecordPhaseStart) {
+        _powerView.image = [UIImage jt_imageInKit:@"icon_input_power1"];
+    } else if(phase == AudioRecordPhaseCancelling) {
+        _tipLabel.text = @"松开手指，取消发送";
+        _tipBackgroundView.hidden = NO;
+        _microphoneView.hidden = YES;
+        _powerView.hidden = YES;
+        _tipArrowView.hidden = NO;
+        
+    } else {
+        _tipLabel.text = @"手指上滑，取消发送";
+        _tipBackgroundView.hidden = YES;
+        _microphoneView.hidden = NO;
+        _powerView.hidden = NO;
+        _tipArrowView.hidden = YES;
+    }
+}
+
+- (void)layoutSubviews {
+    CGSize size = [_tipLabel sizeThatFits:CGSizeMake(NIMKit_ViewWidth, MAXFLOAT)];
+    _tipLabel.frame = CGRectMake(0, NIMKit_ViewHeight - 10 - size.height, NIMKit_ViewWidth, size.height);
+}
+@end

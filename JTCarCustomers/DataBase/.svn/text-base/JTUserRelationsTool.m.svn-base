@@ -1,0 +1,70 @@
+//
+//  JTUserRelationsTool.m
+//  JTDirectSeeding
+//
+//  Created by apple on 2017/5/19.
+//  Copyright © 2017年 JTTeam. All rights reserved.
+//
+
+#import "JTUserRelationsTool.h"
+
+@implementation JTUserRelationsTool
+
++ (JTUserRelationsModel *)syncUserRelations:(NSString *)userID ufd:(NSString *)ufd fud:(NSString *)fud yunxinID:(NSString *)yunxinID
+{
+    NSString *relationsStautsText;
+    if ([ufd isEqualToString:@"0"] && [fud isEqualToString:@"0"]) {
+        relationsStautsText = @"0";
+    }
+    else if ([ufd isEqualToString:@"1"] && [fud isEqualToString:@"0"]) {
+        relationsStautsText = @"1";
+    }
+    else if ([ufd isEqualToString:@"0"] && [fud isEqualToString:@"1"]) {
+        relationsStautsText = @"2";
+    }
+    else if ([ufd isEqualToString:@"1"] && [fud isEqualToString:@"1"]) {
+        relationsStautsText = @"3";
+    }
+    return [self syncUserRelations:userID relationsStauts:relationsStautsText yunxinID:yunxinID];
+}
+
++ (JTUserRelationsModel *)syncUserRelations:(NSString *)userID relationsStauts:(NSString *)relationsStauts yunxinID:(NSString *)yunxinID
+{
+    JTUserRelationsModel *model = [[JTUserRelationsModel alloc] initWithUserID:userID relationsStauts:relationsStauts yunxinID:yunxinID];
+    [ZTAdminister sqlite_insert:kUserRelationsTable model:model];
+    return model;
+}
+
++ (void)syncServiceUserRelations
+{
+    [[HttpRequestTool sharedInstance] postWithURLString:kBase_url(FollowUidsApi) parameters:nil success:^(id responseObject) {
+        if (responseObject && [responseObject objectForKey:@"data"]) {
+            if ([responseObject[@"data"] isKindOfClass:[NSArray class]] && [responseObject[@"data"] count] > 0) {
+                NSMutableArray *modelArray = [NSMutableArray array];
+                for (int i = 0; i < 100; i ++) {
+                    for (NSString *userID in responseObject[@"data"]) {
+                        [modelArray addObject:[[JTUserRelationsModel alloc] initWithUserID:[NSString stringWithFormat:@"%@", userID] relationsStauts:@"1" yunxinID:[NSString stringWithFormat:@"%@", userID]]];
+                    }
+                }
+                [ZTAdminister sqlite_insert:kUserRelationsTable modelArray:modelArray];
+                [[NSNotificationCenter defaultCenter] postNotificationName:kUpdateUserRelationsNotification object:nil];
+            }
+        }
+    } failure:^(NSError *error) {
+    }];
+}
+
++ (BOOL)isMyRelation:(NSString *)userID
+{
+    if (![userID isEqualToString:[JTUserInfo shareUserInfo].userID]) {
+        NSArray *users = [ZTAdminister sqlite_search:kUserRelationsTable searchKey:@"userID" searchValue:userID];
+        if (users && [users isKindOfClass:[NSArray class]] && users.count > 0) {
+            NSString *relationsStauts = [[users firstObject] relationsStauts];
+            if ([relationsStauts isEqualToString:@"1"] || [relationsStauts isEqualToString:@"3"]) {
+                return YES;
+            }
+        }
+    }
+    return NO;
+}
+@end

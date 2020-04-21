@@ -1,0 +1,19 @@
+//
+//  JTUserRelationsModel.h
+//  JTDirectSeeding
+//
+//  Created by apple on 2017/5/16.
+//  Copyright © 2017年 JTTeam. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+
+@interface JTUserRelationsModel : NSObject
+
+@property (copy, nonatomic) NSString *userID;              // 用户ID
+// 0.互相不关注 1.我关注对方（当前用户关注被查看用户) 2.对方关注我 3.互相关注
+@property (copy, nonatomic) NSString *relationsStauts;     // 用户关系
+@property (copy, nonatomic) NSString *yunxinID;            // 用户云信ID
+
+- (instancetype)initWithUserID:(NSString *)userID relationsStauts:(NSString *)relationsStauts yunxinID:(NSString *)yunxinID;
+@end

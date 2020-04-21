@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="JTCreatTeamTipViewController">
+            <connections>
+                <outlet property="bottomBtn" destination="9wc-XO-wlc" id="3RC-i9-bSa"/>
+                <outlet property="topConstraint" destination="Aqg-YN-p0c" id="VE5-YM-yxp"/>
+                <outlet property="topLB" destination="i48-TM-A2e" id="p2Q-sJ-dAJ"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="创建群聊" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rFF-Sy-rKv">
+                    <rect key="frame" x="22" y="62" width="126" height="34"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="126" id="MyU-Bb-uEk"/>
+                        <constraint firstAttribute="height" constant="34" id="VR0-1i-wva"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="创建成功会出现在附近列表里" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qxd-Dz-ybp">
+                    <rect key="frame" x="22" y="114" width="227" height="20"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="227" id="ovG-8K-6Qr"/>
+                        <constraint firstAttribute="height" constant="20" id="qnO-LV-HwY"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                    <color key="textColor" red="0.26666666666666666" green="0.26666666666666666" blue="0.26666666666666666" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="team_create_bkg" translatesAutoresizingMaskIntoConstraints="NO" id="gKC-nb-wVm">
+                    <rect key="frame" x="0.0" y="154" width="375" height="250"/>
+                </imageView>
+                <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9wc-XO-wlc" customClass="JTGradientButton">
+                    <rect key="frame" x="38" y="430" width="300" height="45"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="45" id="L9f-HV-2D7"/>
+                        <constraint firstAttribute="width" constant="300" id="O0s-HP-fXm"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                    <state key="normal" title="当前可创建1个群组">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </state>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                            <real key="value" value="22.5"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                    <connections>
+                        <action selector="createBtnClick:" destination="-1" eventType="touchUpInside" id="Ytr-2M-HH9"/>
+                    </connections>
+                </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="characterWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i48-TM-A2e">
+                    <rect key="frame" x="5" y="497" width="365" height="0.0"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="9wc-XO-wlc" firstAttribute="top" secondItem="gKC-nb-wVm" secondAttribute="bottom" constant="26" id="1CN-pE-sJV"/>
+                <constraint firstAttribute="trailing" secondItem="gKC-nb-wVm" secondAttribute="trailing" id="1V4-K3-XlZ"/>
+                <constraint firstItem="9wc-XO-wlc" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="9ej-gk-04y"/>
+                <constraint firstAttribute="trailing" secondItem="i48-TM-A2e" secondAttribute="trailing" constant="5" id="9wT-Nk-GCB"/>
+                <constraint firstItem="rFF-Sy-rKv" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="62" id="Aqg-YN-p0c"/>
+                <constraint firstItem="i48-TM-A2e" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="5" id="GIS-qn-FHs"/>
+                <constraint firstItem="qxd-Dz-ybp" firstAttribute="leading" secondItem="rFF-Sy-rKv" secondAttribute="trailing" constant="-126" id="SW8-gI-fhR"/>
+                <constraint firstItem="gKC-nb-wVm" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="U0H-GR-C3v"/>
+                <constraint firstItem="rFF-Sy-rKv" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="22" id="VuM-Dk-YJ2"/>
+                <constraint firstItem="gKC-nb-wVm" firstAttribute="top" secondItem="qxd-Dz-ybp" secondAttribute="bottom" constant="20" id="nl9-0P-fom"/>
+                <constraint firstItem="i48-TM-A2e" firstAttribute="top" secondItem="9wc-XO-wlc" secondAttribute="bottom" constant="22" id="tqp-3v-667"/>
+                <constraint firstItem="qxd-Dz-ybp" firstAttribute="top" secondItem="rFF-Sy-rKv" secondAttribute="bottom" constant="18" id="ysI-cj-7OE"/>
+                <constraint firstItem="i48-TM-A2e" firstAttribute="centerX" secondItem="9wc-XO-wlc" secondAttribute="centerX" id="z14-8F-iPB"/>
+            </constraints>
+            <point key="canvasLocation" x="7.5" y="54.5"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="team_create_bkg" width="375" height="250"/>
+    </resources>
+</document>

@@ -1,0 +1,45 @@
+//
+//  PrefixHeader.pch
+//  Bingo
+//
+//  Created by 周涛 on 15/11/6.
+//  Copyright © 2015年 周涛. All rights reserved.
+//
+
+#ifndef PrefixHeader_pch
+#define PrefixHeader_pch
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+
+#ifdef __OBJC__
+
+   #import "MacroMethod.h"
+   #import "UITools.h"
+   #import "EnumDev.h"
+   #import "AppDelegate.h"
+   #import "Utility.h"
+   #import "UIImageView+WebCache.h"
+   #import "MJExtension.h"
+   #import "Masonry.h"
+   #import <UMMobClick/MobClick.h>
+   #import "UIView+Extension.h"
+   #import "NSString+Extension.h"
+   #import "UIImage+Extension.h"
+   #import <NIMSDK/NIMSDK.h>
+   #import <NIMAVChat/NIMAVChat.h>
+   #import "JTUserInfo.h"
+   #import "JTServiceApi.h"
+   #import "HttpRequestTool.h"
+   #import "HUDTool.h"
+   #import "JTSocialStautsUtil.h"
+   #import "JTSocialRouterUtil.h"
+   #import "JTUserInfoHandle.h"
+   #import "JTDeviceAccess.h"
+//
+//   #import <CocoaLumberjack.h>
+
+#endif /* PrefixHeader_pch */
+#endif
+
+

@@ -1,0 +1,69 @@
+//
+//  JTSocialRouterUtil.h
+//  JTSocial
+//
+//  Created by apple on 2017/9/15.
+//  Copyright © 2017年 JTTeam. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+#import "JTSocialRouterModel.h"
+
+/**
+ 直播表演
+ */
+extern NSString *const JTPlatformLiveShow;
+/**
+ 观看直播表演
+ */
+extern NSString *const JTPlatformWatchLive;
+/**
+ 拨打视频电话
+ */
+extern NSString *const JTPlatformCallVideoIn;
+/**
+ 拨打语音电话
+ */
+extern NSString *const JTPlatformCallAudioIn;
+/**
+ 分享
+ */
+extern NSString *const JTPlatformShareToSocial;
+/**
+ 跳到下一页
+ */
+extern NSString *const JTPlatformNextPage;
+/**
+ 关闭页
+ */
+extern NSString *const JTPlatformClosePage;
+/**
+ 获取权限
+ */
+extern NSString *const JTPlatformGetPower;
+/**
+ 打开游戏
+ */
+extern NSString *const JTPlatformOpenGame;
+/**
+ 支付结果
+ */
+extern NSString *const JTPlatformPaymentResults;
+
+@interface JTSocialRouterUtil : NSObject
+
++ (instancetype)sharedCenter;
+
+/**
+ 获得从sso或者web端回调到本app的回调
+
+ @param url 第三方sdk的打开本app的回调的url
+ @return 是否处理  YES代表处理成功，NO代表不处理
+ */
+- (BOOL)handleOpenURL:(NSURL *)url;
+
+/**
+ 注册Scheme
+ */
+- (void)registerRouterWithScheme;
+@end

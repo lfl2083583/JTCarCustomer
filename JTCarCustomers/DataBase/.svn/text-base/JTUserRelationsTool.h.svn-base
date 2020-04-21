@@ -1,0 +1,18 @@
+//
+//  JTUserRelationsTool.h
+//  JTDirectSeeding
+//
+//  Created by apple on 2017/5/19.
+//  Copyright © 2017年 JTTeam. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+#import "ZTAdminister.h"
+
+@interface JTUserRelationsTool : NSObject
+
++ (JTUserRelationsModel *)syncUserRelations:(NSString *)userID ufd:(NSString *)ufd fud:(NSString *)fud yunxinID:(NSString *)yunxinID;
++ (JTUserRelationsModel *)syncUserRelations:(NSString *)userID relationsStauts:(NSString *)relationsStauts yunxinID:(NSString *)yunxinID;
++ (void)syncServiceUserRelations;
++ (BOOL)isMyRelation:(NSString *)userID;
+@end

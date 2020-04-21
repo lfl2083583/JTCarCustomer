@@ -1,0 +1,431 @@
+K 25
+svn:wc:ra_dav:version-url
+V 121
+/svn/thirdim/!svn/ver/2903/app/ios/JTSocial/JTSocial/JTSocial/Frameworks/NIM_iOS_SDK_v4-2/NIMSDK/NIMSDK.framework/Headers
+END
+NIMLoginManagerProtocol.h
+K 25
+svn:wc:ra_dav:version-url
+V 147
+/svn/thirdim/!svn/ver/2903/app/ios/JTSocial/JTSocial/JTSocial/Frameworks/NIM_iOS_SDK_v4-2/NIMSDK/NIMSDK.framework/Headers/NIMLoginManagerProtocol.h
+END
+NIMTeam.h
+K 25
+svn:wc:ra_dav:version-url
+V 131
+/svn/thirdim/!svn/ver/2903/app/ios/JTSocial/JTSocial/JTSocial/Frameworks/NIM_iOS_SDK_v4-2/NIMSDK/NIMSDK.framework/Headers/NIMTeam.h
+END
+NIMTeamDefs.h
+K 25
+svn:wc:ra_dav:version-url
+V 135
+/svn/thirdim/!svn/ver/2903/app/ios/JTSocial/JTSocial/JTSocial/Frameworks/NIM_iOS_SDK_v4-2/NIMSDK/NIMSDK.framework/Headers/NIMTeamDefs.h
+END
+NIMChatroomUpdateRequest.h
+K 25
+svn:wc:ra_dav:version-url
+V 148
+/svn/thirdim/!svn/ver/2903/app/ios/JTSocial/JTSocial/JTSocial/Frameworks/NIM_iOS_SDK_v4-2/NIMSDK/NIMSDK.framework/Headers/NIMChatroomUpdateRequest.h
+END
+NIMSubscribeRequest.h
+K 25
+svn:wc:ra_dav:version-url
+V 143
+/svn/thirdim/!svn/ver/2903/app/ios/JTSocial/JTSocial/JTSocial/Frameworks/NIM_iOS_SDK_v4-2/NIMSDK/NIMSDK.framework/Headers/NIMSubscribeRequest.h
+END
+NIMSDKHeader.h
+K 25
+svn:wc:ra_dav:version-url
+V 136
+/svn/thirdim/!svn/ver/2903/app/ios/JTSocial/JTSocial/JTSocial/Frameworks/NIM_iOS_SDK_v4-2/NIMSDK/NIMSDK.framework/Headers/NIMSDKHeader.h
+END
+NIMMessageObjectProtocol.h
+K 25
+svn:wc:ra_dav:version-url
+V 148
+/svn/thirdim/!svn/ver/2903/app/ios/JTSocial/JTSocial/JTSocial/Frameworks/NIM_iOS_SDK_v4-2/NIMSDK/NIMSDK.framework/Headers/NIMMessageObjectProtocol.h
+END
+NIMEventSubscribeManagerProtocol.h
+K 25
+svn:wc:ra_dav:version-url
+V 156
+/svn/thirdim/!svn/ver/2903/app/ios/JTSocial/JTSocial/JTSocial/Frameworks/NIM_iOS_SDK_v4-2/NIMSDK/NIMSDK.framework/Headers/NIMEventSubscribeManagerProtocol.h
+END
+NIMCustomObject.h
+K 25
+svn:wc:ra_dav:version-url
+V 139
+/svn/thirdim/!svn/ver/2903/app/ios/JTSocial/JTSocial/JTSocial/Frameworks/NIM_iOS_SDK_v4-2/NIMSDK/NIMSDK.framework/Headers/NIMCustomObject.h
+END
+NIMGlobalDefs.h
+K 25
+svn:wc:ra_dav:version-url
+V 137
+/svn/thirdim/!svn/ver/2903/app/ios/JTSocial/JTSocial/JTSocial/Frameworks/NIM_iOS_SDK_v4-2/NIMSDK/NIMSDK.framework/Headers/NIMGlobalDefs.h
+END
+NIMSDKConfig.h
+K 25
+svn:wc:ra_dav:version-url
+V 136
+/svn/thirdim/!svn/ver/2903/app/ios/JTSocial/JTSocial/JTSocial/Frameworks/NIM_iOS_SDK_v4-2/NIMSDK/NIMSDK.framework/Headers/NIMSDKConfig.h
+END
+NIMImageObject.h
+K 25
+svn:wc:ra_dav:version-url
+V 138
+/svn/thirdim/!svn/ver/2903/app/ios/JTSocial/JTSocial/JTSocial/Frameworks/NIM_iOS_SDK_v4-2/NIMSDK/NIMSDK.framework/Headers/NIMImageObject.h
+END
+NIMNotificationObject.h
+K 25
+svn:wc:ra_dav:version-url
+V 145
+/svn/thirdim/!svn/ver/2903/app/ios/JTSocial/JTSocial/JTSocial/Frameworks/NIM_iOS_SDK_v4-2/NIMSDK/NIMSDK.framework/Headers/NIMNotificationObject.h
+END
+NIMRedPacketManagerProtocol.h
+K 25
+svn:wc:ra_dav:version-url
+V 151
+/svn/thirdim/!svn/ver/2903/app/ios/JTSocial/JTSocial/JTSocial/Frameworks/NIM_iOS_SDK_v4-2/NIMSDK/NIMSDK.framework/Headers/NIMRedPacketManagerProtocol.h
+END
+NIMMessageSetting.h
+K 25
+svn:wc:ra_dav:version-url
+V 141
+/svn/thirdim/!svn/ver/2903/app/ios/JTSocial/JTSocial/JTSocial/Frameworks/NIM_iOS_SDK_v4-2/NIMSDK/NIMSDK.framework/Headers/NIMMessageSetting.h
+END
+NIMDeleteMessagesOption.h
+K 25
+svn:wc:ra_dav:version-url
+V 147
+/svn/thirdim/!svn/ver/2903/app/ios/JTSocial/JTSocial/JTSocial/Frameworks/NIM_iOS_SDK_v4-2/NIMSDK/NIMSDK.framework/Headers/NIMDeleteMessagesOption.h
+END
+NIMPushNotificationSetting.h
+K 25
+svn:wc:ra_dav:version-url
+V 150
+/svn/thirdim/!svn/ver/2903/app/ios/JTSocial/JTSocial/JTSocial/Frameworks/NIM_iOS_SDK_v4-2/NIMSDK/NIMSDK.framework/Headers/NIMPushNotificationSetting.h
+END
+NIMCustomSystemNotificationSetting.h
+K 25
+svn:wc:ra_dav:version-url
+V 158
+/svn/thirdim/!svn/ver/2903/app/ios/JTSocial/JTSocial/JTSocial/Frameworks/NIM_iOS_SDK_v4-2/NIMSDK/NIMSDK.framework/Headers/NIMCustomSystemNotificationSetting.h
+END
+NIMAudioObject.h
+K 25
+svn:wc:ra_dav:version-url
+V 138
+/svn/thirdim/!svn/ver/2903/app/ios/JTSocial/JTSocial/JTSocial/Frameworks/NIM_iOS_SDK_v4-2/NIMSDK/NIMSDK.framework/Headers/NIMAudioObject.h
+END
+NIMTeamNotificationContent.h
+K 25
+svn:wc:ra_dav:version-url
+V 150
+/svn/thirdim/!svn/ver/2903/app/ios/JTSocial/JTSocial/JTSocial/Frameworks/NIM_iOS_SDK_v4-2/NIMSDK/NIMSDK.framework/Headers/NIMTeamNotificationContent.h
+END
+NIMChatroomQueueRequest.h
+K 25
+svn:wc:ra_dav:version-url
+V 147
+/svn/thirdim/!svn/ver/2903/app/ios/JTSocial/JTSocial/JTSocial/Frameworks/NIM_iOS_SDK_v4-2/NIMSDK/NIMSDK.framework/Headers/NIMChatroomQueueRequest.h
+END
+NIMUserManagerProtocol.h
+K 25
+svn:wc:ra_dav:version-url
+V 146
+/svn/thirdim/!svn/ver/2903/app/ios/JTSocial/JTSocial/JTSocial/Frameworks/NIM_iOS_SDK_v4-2/NIMSDK/NIMSDK.framework/Headers/NIMUserManagerProtocol.h
+END
+NIMChatManagerProtocol.h
+K 25
+svn:wc:ra_dav:version-url
+V 146
+/svn/thirdim/!svn/ver/2903/app/ios/JTSocial/JTSocial/JTSocial/Frameworks/NIM_iOS_SDK_v4-2/NIMSDK/NIMSDK.framework/Headers/NIMChatManagerProtocol.h
+END
+NIMVideoObject.h
+K 25
+svn:wc:ra_dav:version-url
+V 138
+/svn/thirdim/!svn/ver/2903/app/ios/JTSocial/JTSocial/JTSocial/Frameworks/NIM_iOS_SDK_v4-2/NIMSDK/NIMSDK.framework/Headers/NIMVideoObject.h
+END
+NIMLocationObject.h
+K 25
+svn:wc:ra_dav:version-url
+V 141
+/svn/thirdim/!svn/ver/2903/app/ios/JTSocial/JTSocial/JTSocial/Frameworks/NIM_iOS_SDK_v4-2/NIMSDK/NIMSDK.framework/Headers/NIMLocationObject.h
+END
+NIMSubscribeOnlineInfo.h
+K 25
+svn:wc:ra_dav:version-url
+V 146
+/svn/thirdim/!svn/ver/2903/app/ios/JTSocial/JTSocial/JTSocial/Frameworks/NIM_iOS_SDK_v4-2/NIMSDK/NIMSDK.framework/Headers/NIMSubscribeOnlineInfo.h
+END
+NIMRobotManagerProtocol.h
+K 25
+svn:wc:ra_dav:version-url
+V 147
+/svn/thirdim/!svn/ver/2903/app/ios/JTSocial/JTSocial/JTSocial/Frameworks/NIM_iOS_SDK_v4-2/NIMSDK/NIMSDK.framework/Headers/NIMRobotManagerProtocol.h
+END
+NIMMessageSearchOption.h
+K 25
+svn:wc:ra_dav:version-url
+V 146
+/svn/thirdim/!svn/ver/2903/app/ios/JTSocial/JTSocial/JTSocial/Frameworks/NIM_iOS_SDK_v4-2/NIMSDK/NIMSDK.framework/Headers/NIMMessageSearchOption.h
+END
+NIMTeamManagerProtocol.h
+K 25
+svn:wc:ra_dav:version-url
+V 146
+/svn/thirdim/!svn/ver/2903/app/ios/JTSocial/JTSocial/JTSocial/Frameworks/NIM_iOS_SDK_v4-2/NIMSDK/NIMSDK.framework/Headers/NIMTeamManagerProtocol.h
+END
+NIMServerSetting.h
+K 25
+svn:wc:ra_dav:version-url
+V 140
+/svn/thirdim/!svn/ver/2903/app/ios/JTSocial/JTSocial/JTSocial/Frameworks/NIM_iOS_SDK_v4-2/NIMSDK/NIMSDK.framework/Headers/NIMServerSetting.h
+END
+NIMChatroomMember.h
+K 25
+svn:wc:ra_dav:version-url
+V 141
+/svn/thirdim/!svn/ver/2903/app/ios/JTSocial/JTSocial/JTSocial/Frameworks/NIM_iOS_SDK_v4-2/NIMSDK/NIMSDK.framework/Headers/NIMChatroomMember.h
+END
+NIMFileObject.h
+K 25
+svn:wc:ra_dav:version-url
+V 137
+/svn/thirdim/!svn/ver/2903/app/ios/JTSocial/JTSocial/JTSocial/Frameworks/NIM_iOS_SDK_v4-2/NIMSDK/NIMSDK.framework/Headers/NIMFileObject.h
+END
+NIMRevokeMessageNotification.h
+K 25
+svn:wc:ra_dav:version-url
+V 152
+/svn/thirdim/!svn/ver/2903/app/ios/JTSocial/JTSocial/JTSocial/Frameworks/NIM_iOS_SDK_v4-2/NIMSDK/NIMSDK.framework/Headers/NIMRevokeMessageNotification.h
+END
+NIMLoginClient.h
+K 25
+svn:wc:ra_dav:version-url
+V 138
+/svn/thirdim/!svn/ver/2903/app/ios/JTSocial/JTSocial/JTSocial/Frameworks/NIM_iOS_SDK_v4-2/NIMSDK/NIMSDK.framework/Headers/NIMLoginClient.h
+END
+NIMSDKOption.h
+K 25
+svn:wc:ra_dav:version-url
+V 136
+/svn/thirdim/!svn/ver/2903/app/ios/JTSocial/JTSocial/JTSocial/Frameworks/NIM_iOS_SDK_v4-2/NIMSDK/NIMSDK.framework/Headers/NIMSDKOption.h
+END
+NIMRobotObject.h
+K 25
+svn:wc:ra_dav:version-url
+V 138
+/svn/thirdim/!svn/ver/2903/app/ios/JTSocial/JTSocial/JTSocial/Frameworks/NIM_iOS_SDK_v4-2/NIMSDK/NIMSDK.framework/Headers/NIMRobotObject.h
+END
+NIMMessageChatroomExtension.h
+K 25
+svn:wc:ra_dav:version-url
+V 151
+/svn/thirdim/!svn/ver/2903/app/ios/JTSocial/JTSocial/JTSocial/Frameworks/NIM_iOS_SDK_v4-2/NIMSDK/NIMSDK.framework/Headers/NIMMessageChatroomExtension.h
+END
+NIMTeamMember.h
+K 25
+svn:wc:ra_dav:version-url
+V 137
+/svn/thirdim/!svn/ver/2903/app/ios/JTSocial/JTSocial/JTSocial/Frameworks/NIM_iOS_SDK_v4-2/NIMSDK/NIMSDK.framework/Headers/NIMTeamMember.h
+END
+NIMBroadcastManagerProtocol.h
+K 25
+svn:wc:ra_dav:version-url
+V 151
+/svn/thirdim/!svn/ver/2903/app/ios/JTSocial/JTSocial/JTSocial/Frameworks/NIM_iOS_SDK_v4-2/NIMSDK/NIMSDK.framework/Headers/NIMBroadcastManagerProtocol.h
+END
+NIMRecentSession.h
+K 25
+svn:wc:ra_dav:version-url
+V 140
+/svn/thirdim/!svn/ver/2903/app/ios/JTSocial/JTSocial/JTSocial/Frameworks/NIM_iOS_SDK_v4-2/NIMSDK/NIMSDK.framework/Headers/NIMRecentSession.h
+END
+NIMPlatform.h
+K 25
+svn:wc:ra_dav:version-url
+V 135
+/svn/thirdim/!svn/ver/2903/app/ios/JTSocial/JTSocial/JTSocial/Frameworks/NIM_iOS_SDK_v4-2/NIMSDK/NIMSDK.framework/Headers/NIMPlatform.h
+END
+NIMConversationManagerProtocol.h
+K 25
+svn:wc:ra_dav:version-url
+V 154
+/svn/thirdim/!svn/ver/2903/app/ios/JTSocial/JTSocial/JTSocial/Frameworks/NIM_iOS_SDK_v4-2/NIMSDK/NIMSDK.framework/Headers/NIMConversationManagerProtocol.h
+END
+NIMMediaManagerProtocol.h
+K 25
+svn:wc:ra_dav:version-url
+V 147
+/svn/thirdim/!svn/ver/2903/app/ios/JTSocial/JTSocial/JTSocial/Frameworks/NIM_iOS_SDK_v4-2/NIMSDK/NIMSDK.framework/Headers/NIMMediaManagerProtocol.h
+END
+NIMCreateTeamOption.h
+K 25
+svn:wc:ra_dav:version-url
+V 143
+/svn/thirdim/!svn/ver/2903/app/ios/JTSocial/JTSocial/JTSocial/Frameworks/NIM_iOS_SDK_v4-2/NIMSDK/NIMSDK.framework/Headers/NIMCreateTeamOption.h
+END
+NIMResourceManagerProtocol.h
+K 25
+svn:wc:ra_dav:version-url
+V 150
+/svn/thirdim/!svn/ver/2903/app/ios/JTSocial/JTSocial/JTSocial/Frameworks/NIM_iOS_SDK_v4-2/NIMSDK/NIMSDK.framework/Headers/NIMResourceManagerProtocol.h
+END
+NIMAntiSpamOption.h
+K 25
+svn:wc:ra_dav:version-url
+V 141
+/svn/thirdim/!svn/ver/2903/app/ios/JTSocial/JTSocial/JTSocial/Frameworks/NIM_iOS_SDK_v4-2/NIMSDK/NIMSDK.framework/Headers/NIMAntiSpamOption.h
+END
+NIMBroadcastMessage.h
+K 25
+svn:wc:ra_dav:version-url
+V 143
+/svn/thirdim/!svn/ver/2903/app/ios/JTSocial/JTSocial/JTSocial/Frameworks/NIM_iOS_SDK_v4-2/NIMSDK/NIMSDK.framework/Headers/NIMBroadcastMessage.h
+END
+NIMRedPacketRequest.h
+K 25
+svn:wc:ra_dav:version-url
+V 143
+/svn/thirdim/!svn/ver/2903/app/ios/JTSocial/JTSocial/JTSocial/Frameworks/NIM_iOS_SDK_v4-2/NIMSDK/NIMSDK.framework/Headers/NIMRedPacketRequest.h
+END
+NIMChatroomMemberRequest.h
+K 25
+svn:wc:ra_dav:version-url
+V 148
+/svn/thirdim/!svn/ver/2903/app/ios/JTSocial/JTSocial/JTSocial/Frameworks/NIM_iOS_SDK_v4-2/NIMSDK/NIMSDK.framework/Headers/NIMChatroomMemberRequest.h
+END
+NIMDocTranscodingInfo.h
+K 25
+svn:wc:ra_dav:version-url
+V 145
+/svn/thirdim/!svn/ver/2903/app/ios/JTSocial/JTSocial/JTSocial/Frameworks/NIM_iOS_SDK_v4-2/NIMSDK/NIMSDK.framework/Headers/NIMDocTranscodingInfo.h
+END
+NIMChatroomNotificationContent.h
+K 25
+svn:wc:ra_dav:version-url
+V 154
+/svn/thirdim/!svn/ver/2903/app/ios/JTSocial/JTSocial/JTSocial/Frameworks/NIM_iOS_SDK_v4-2/NIMSDK/NIMSDK.framework/Headers/NIMChatroomNotificationContent.h
+END
+NIMApnsManagerProtocol.h
+K 25
+svn:wc:ra_dav:version-url
+V 146
+/svn/thirdim/!svn/ver/2903/app/ios/JTSocial/JTSocial/JTSocial/Frameworks/NIM_iOS_SDK_v4-2/NIMSDK/NIMSDK.framework/Headers/NIMApnsManagerProtocol.h
+END
+NIMSubscribeResult.h
+K 25
+svn:wc:ra_dav:version-url
+V 142
+/svn/thirdim/!svn/ver/2903/app/ios/JTSocial/JTSocial/JTSocial/Frameworks/NIM_iOS_SDK_v4-2/NIMSDK/NIMSDK.framework/Headers/NIMSubscribeResult.h
+END
+NIMNotificationContent.h
+K 25
+svn:wc:ra_dav:version-url
+V 146
+/svn/thirdim/!svn/ver/2903/app/ios/JTSocial/JTSocial/JTSocial/Frameworks/NIM_iOS_SDK_v4-2/NIMSDK/NIMSDK.framework/Headers/NIMNotificationContent.h
+END
+NIMSession.h
+K 25
+svn:wc:ra_dav:version-url
+V 134
+/svn/thirdim/!svn/ver/2903/app/ios/JTSocial/JTSocial/JTSocial/Frameworks/NIM_iOS_SDK_v4-2/NIMSDK/NIMSDK.framework/Headers/NIMSession.h
+END
+NIMChatroomEnterRequest.h
+K 25
+svn:wc:ra_dav:version-url
+V 147
+/svn/thirdim/!svn/ver/2903/app/ios/JTSocial/JTSocial/JTSocial/Frameworks/NIM_iOS_SDK_v4-2/NIMSDK/NIMSDK.framework/Headers/NIMChatroomEnterRequest.h
+END
+NIMNetCallNotificationContent.h
+K 25
+svn:wc:ra_dav:version-url
+V 153
+/svn/thirdim/!svn/ver/2903/app/ios/JTSocial/JTSocial/JTSocial/Frameworks/NIM_iOS_SDK_v4-2/NIMSDK/NIMSDK.framework/Headers/NIMNetCallNotificationContent.h
+END
+NIMRobot.h
+K 25
+svn:wc:ra_dav:version-url
+V 132
+/svn/thirdim/!svn/ver/2903/app/ios/JTSocial/JTSocial/JTSocial/Frameworks/NIM_iOS_SDK_v4-2/NIMSDK/NIMSDK.framework/Headers/NIMRobot.h
+END
+NIMMessageApnsMemberOption.h
+K 25
+svn:wc:ra_dav:version-url
+V 150
+/svn/thirdim/!svn/ver/2903/app/ios/JTSocial/JTSocial/JTSocial/Frameworks/NIM_iOS_SDK_v4-2/NIMSDK/NIMSDK.framework/Headers/NIMMessageApnsMemberOption.h
+END
+NIMChatroomManagerProtocol.h
+K 25
+svn:wc:ra_dav:version-url
+V 150
+/svn/thirdim/!svn/ver/2903/app/ios/JTSocial/JTSocial/JTSocial/Frameworks/NIM_iOS_SDK_v4-2/NIMSDK/NIMSDK.framework/Headers/NIMChatroomManagerProtocol.h
+END
+NIMUnsupportedNotificationContent.h
+K 25
+svn:wc:ra_dav:version-url
+V 157
+/svn/thirdim/!svn/ver/2903/app/ios/JTSocial/JTSocial/JTSocial/Frameworks/NIM_iOS_SDK_v4-2/NIMSDK/NIMSDK.framework/Headers/NIMUnsupportedNotificationContent.h
+END
+NIMSystemNotification.h
+K 25
+svn:wc:ra_dav:version-url
+V 145
+/svn/thirdim/!svn/ver/2903/app/ios/JTSocial/JTSocial/JTSocial/Frameworks/NIM_iOS_SDK_v4-2/NIMSDK/NIMSDK.framework/Headers/NIMSystemNotification.h
+END
+NIMMessageReceipt.h
+K 25
+svn:wc:ra_dav:version-url
+V 141
+/svn/thirdim/!svn/ver/2903/app/ios/JTSocial/JTSocial/JTSocial/Frameworks/NIM_iOS_SDK_v4-2/NIMSDK/NIMSDK.framework/Headers/NIMMessageReceipt.h
+END
+NIMSystemNotificationManagerProtocol.h
+K 25
+svn:wc:ra_dav:version-url
+V 160
+/svn/thirdim/!svn/ver/2903/app/ios/JTSocial/JTSocial/JTSocial/Frameworks/NIM_iOS_SDK_v4-2/NIMSDK/NIMSDK.framework/Headers/NIMSystemNotificationManagerProtocol.h
+END
+NIMChatroom.h
+K 25
+svn:wc:ra_dav:version-url
+V 135
+/svn/thirdim/!svn/ver/2903/app/ios/JTSocial/JTSocial/JTSocial/Frameworks/NIM_iOS_SDK_v4-2/NIMSDK/NIMSDK.framework/Headers/NIMChatroom.h
+END
+NIMDocTranscodingManagerProtocol.h
+K 25
+svn:wc:ra_dav:version-url
+V 156
+/svn/thirdim/!svn/ver/2903/app/ios/JTSocial/JTSocial/JTSocial/Frameworks/NIM_iOS_SDK_v4-2/NIMSDK/NIMSDK.framework/Headers/NIMDocTranscodingManagerProtocol.h
+END
+NIMUser.h
+K 25
+svn:wc:ra_dav:version-url
+V 131
+/svn/thirdim/!svn/ver/2903/app/ios/JTSocial/JTSocial/JTSocial/Frameworks/NIM_iOS_SDK_v4-2/NIMSDK/NIMSDK.framework/Headers/NIMUser.h
+END
+NIMSDK.h
+K 25
+svn:wc:ra_dav:version-url
+V 130
+/svn/thirdim/!svn/ver/2903/app/ios/JTSocial/JTSocial/JTSocial/Frameworks/NIM_iOS_SDK_v4-2/NIMSDK/NIMSDK.framework/Headers/NIMSDK.h
+END
+NIMSubscribeEvent.h
+K 25
+svn:wc:ra_dav:version-url
+V 141
+/svn/thirdim/!svn/ver/2903/app/ios/JTSocial/JTSocial/JTSocial/Frameworks/NIM_iOS_SDK_v4-2/NIMSDK/NIMSDK.framework/Headers/NIMSubscribeEvent.h
+END
+NIMTipObject.h
+K 25
+svn:wc:ra_dav:version-url
+V 136
+/svn/thirdim/!svn/ver/2903/app/ios/JTSocial/JTSocial/JTSocial/Frameworks/NIM_iOS_SDK_v4-2/NIMSDK/NIMSDK.framework/Headers/NIMTipObject.h
+END
+NIMMessage.h
+K 25
+svn:wc:ra_dav:version-url
+V 134
+/svn/thirdim/!svn/ver/2903/app/ios/JTSocial/JTSocial/JTSocial/Frameworks/NIM_iOS_SDK_v4-2/NIMSDK/NIMSDK.framework/Headers/NIMMessage.h
+END

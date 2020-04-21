@@ -1,0 +1,63 @@
+//
+//  NIMInputEmoticonButton.m
+//  NIMKit
+//
+//  Created by chris.
+//  Copyright (c) 2015年 NetEase. All rights reserved.
+//
+
+#import "NIMInputEmoticonButton.h"
+#import "UIImage+Chat.h"
+#import "NIMInputEmoticonManager.h"
+#import <SDWebImage/UIButton+WebCache.h>
+#import "ZTImageSize.h"
+
+@implementation NIMInputEmoticonButton
+
++ (NIMInputEmoticonButton *)iconButtonWithData:(NIMInputEmoticon *)data catalogID:(NSString*)catalogID delegate:(id<NIMEmoticonButtonTouchDelegate>)delegate
+{
+    NIMInputEmoticonButton *icon = [[NIMInputEmoticonButton alloc] init];
+    [icon addTarget:icon action:@selector(onIconSelected:) forControlEvents:UIControlEventTouchUpInside];
+
+    if (data.filename && data.filename.length > 0) {
+        UIImage *image = [UIImage jt_fetchImage:data.filename];
+        [icon setImage:image forState:UIControlStateNormal];
+        [icon setImage:image forState:UIControlStateHighlighted];
+    }
+    else
+    {
+        [icon sd_setImageWithURL:[NSURL URLWithString:[data.imageName avatarHandleWithSquare:110]] forState:UIControlStateNormal];
+    }
+    [icon.imageView setContentMode:UIViewContentModeScaleAspectFill];
+    [icon.layer setCornerRadius:4.f];
+    [icon setClipsToBounds:YES];
+
+    icon.emoticonData           = data;
+    icon.catalogID              = catalogID;
+    icon.userInteractionEnabled = YES;
+    icon.exclusiveTouch         = YES;
+    icon.contentMode            = UIViewContentModeScaleToFill;
+    icon.delegate               = delegate;
+    return icon;
+}
+
+- (void)onIconSelected:(id)sender
+{
+    if ([self.delegate respondsToSelector:@selector(selectedEmoticon:catalogID:)])
+    {
+        if (self.emoticonData.width && self.emoticonData.width.length && self.emoticonData.height && self.emoticonData.height.length) {
+            
+        }
+        else
+        {
+            __weak typeof(self) weakself = self;
+            [ZTImageSize imageWithURL:self.emoticonData.gifName complete:^(CGSize size) {
+                weakself.emoticonData.width = [NSString stringWithFormat:@"%.2f", size.width];
+                weakself.emoticonData.height = [NSString stringWithFormat:@"%.2f", size.height];
+            }];
+        }
+        [self.delegate selectedEmoticon:self.emoticonData catalogID:self.catalogID];
+    }
+}
+
+@end

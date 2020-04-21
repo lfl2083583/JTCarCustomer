@@ -1,0 +1,255 @@
+//
+//  JTMessageMaker.h
+//  JTDirectSeeding
+//
+//  Created by apple on 2017/5/2.
+//  Copyright © 2017年 JTTeam. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+
+@interface JTMessageMaker : NSObject
+
+
+/**
+ 配置文字消息
+
+ @param text 文字
+ @return 消息体
+ */
++ (NIMMessage *_Nullable)messageWithText:(NSString *_Nullable)text;
+
+/**
+ 配置提示消息
+
+ @param tip 提示文章
+ @return 消息体
+ */
++ (NIMMessage *_Nullable)messageWithTip:(NSString *_Nullable)tip;
+
+/**
+ 配置语音消息
+
+ @param filePath 语音地址
+ @return 消息体
+ */
++ (NIMMessage *_Nullable)messageWithAudio:(NSString *_Nullable)filePath;
+
+/**
+ 配置图片消息
+
+ @param image 图片
+ @return 消息体
+ */
++ (NIMMessage *_Nullable)messageWithImage:(UIImage *_Nullable)image;
+
+/**
+ 配置视频消息
+ 
+ @param filePath 视频地址
+ @return 消息体
+ */
++ (NIMMessage *_Nullable)messageWithVideo:(NSString *_Nullable)filePath;
+
+/**
+ 配置视频消息
+
+ @param videoUrl 视频网络地址
+ @param videoCoverUrl 视频封面网络地址
+ @param videoWidth 视频宽度
+ @param videoHeight 视频高度
+ @return 消息体
+ */
++ (NIMMessage *_Nullable)messageWithVideoUrl:(NSString *_Nullable)videoUrl
+                               videoCoverUrl:(NSString *_Nullable)videoCoverUrl
+                                  videoWidth:(NSString *_Nullable)videoWidth
+                                 videoHeight:(NSString *_Nullable)videoHeight;
+/**
+ 配置位置消息
+ @param latitude  纬度
+ @param longitude 经度
+ @param title   地理位置描述
+ @return 消息体
+ */
++ (NIMMessage *_Nullable)messageWithLocation:(double)latitude
+                                   longitude:(double)longitude
+                                       title:(nullable NSString *)title;
+
+/**
+ 配置名片消息
+
+ @param userID 用户ID
+ @return 消息体
+ */
++ (NIMMessage *_Nullable)messageWithCard:(NSString *_Nullable)userID;
+
+/**
+ 配置贴图消息
+
+ @param chartletID 贴图ID
+ @param chartletName 贴图名称
+ @param chartletUrl 贴图原图远程路径
+ @param chartletThumbnail 贴图缩略图远程路径
+ @param chartletWidth 贴图宽
+ @param chartletHeight 贴图高
+ @return 消息体
+ */
++ (NIMMessage *_Nullable)messageWithChartlet:(NSString *_Nullable)chartletID
+                                chartletName:(NSString *_Nullable)chartletName
+                                 chartletUrl:(NSString *_Nullable)chartletUrl
+                           chartletThumbnail:(NSString *_Nullable)chartletThumbnail
+                               chartletWidth:(NSString *_Nonnull)chartletWidth
+                              chartletHeight:(NSString *_Nonnull)chartletHeight;
+
+/**
+ 游戏名片消息
+ 
+ @param gameID 游戏ID
+ @param gameName 游戏名称
+ @param gameIcon 游戏图标
+ @param shareIcon 分享游戏图片
+ @param shareTitle 分享游戏标题
+ @param shareContent 分享游戏内容
+ @param appKey 游戏的scheme(用于跳转)
+ @param ext 分享游戏的拓展字段，游戏端去自定义设置，例如：利用扩张能直接进入房间进行游戏的参数
+ @return 消息体
+ */
++ (NIMMessage *_Nullable)messageWithGameCard:(NSString *_Nullable)gameID
+                                    gameName:(NSString *_Nullable)gameName
+                                    gameIcon:(NSString *_Nullable)gameIcon
+                                   shareIcon:(NSString *_Nullable)shareIcon
+                                  shareTitle:(NSString *_Nullable)shareTitle
+                                shareContent:(NSString *_Nullable)shareContent
+                                      appKey:(NSString *_Nullable)appKey
+                                         ext:(NSString *_Nullable)ext;
+
+/**
+ 游戏图片消息
+
+ @param gameID 游戏ID
+ @param gameName 游戏名称
+ @param gameIcon 游戏图标
+ @param gameImage 游戏图片
+ @param imageWidth 图片宽度
+ @param imageHeight 图片高度
+ @param appKey appKey 游戏的scheme(用于跳转)
+ @return 分享游戏的拓展字段，游戏端去自定义设置，例如：利用扩张能直接进入房间进行游戏的参数
+ */
++ (NIMMessage *_Nullable)messageWithGamePhoto:(NSString *_Nullable)gameID
+                                     gameName:(NSString *_Nullable)gameName
+                                     gameIcon:(NSString *_Nullable)gameIcon
+                                    gameImage:(NSString *_Nullable)gameImage
+                                   imageWidth:(NSString *_Nullable)imageWidth
+                                  imageHeight:(NSString *_Nullable)imageHeight
+                                       appKey:(NSString *_Nullable)appKey;
+
+/**
+ 直播间文字消息
+
+ @param liveText 文字
+ @param userName 用户昵称
+ @param userGrade 用户等级
+ @param isFuns 是否关注了直播间主播
+ @return 消息体
+ */
++ (NIMMessage *_Nullable)messageWithLiveText:(NSString *_Nullable)liveText
+                                    userName:(NSString *_Nullable)userName
+                                   userGrade:(NSInteger)userGrade
+                                      isFuns:(BOOL)isFuns;
+
+/**
+ 直播间点赞消息
+
+ @param userName 用户昵称
+ @param userGrade 用户等级
+ @return 消息体
+ */
++ (NIMMessage *_Nullable)messageWithLivePraiseUserName:(NSString *_Nullable)userName
+                                             userGrade:(NSInteger)userGrade;
+
+/**
+ 直播间关注主播消息
+
+ @param userName 用户昵称
+ @param userGrade 用户等级
+ @param isFuns 是否关注了直播间主播
+ @return 消息体
+ */
++ (NIMMessage *_Nullable)messageWithLiveFocusUserName:(NSString *_Nullable)userName
+                                            userGrade:(NSInteger)userGrade
+                                               isFuns:(BOOL)isFuns;
+
+
+/**
+ 分享直播间消息
+ 
+ @param userName 用户昵称
+ @param userGrade 用户等级
+ @param isFuns 是否关注了直播间主播
+ @return 消息体
+ */
++ (NIMMessage *_Nullable)messageWithLiveShareUserName:(NSString *_Nullable)userName
+                                            userGrade:(NSInteger)userGrade
+                                               isFuns:(BOOL)isFuns;
+
+/**
+ 分享主播名片消息
+
+ @param userID 主播用户ID
+ @param roomID 主播房间
+ @param username 主播昵称
+ @param avatarUrlString 主播头像
+ @param cover 直播间封面
+ @param pullUrl 直播间推流地址
+ @param title 直播间标题
+ @return 消息体
+ */
++ (NIMMessage *_Nullable)messageWithAnchorCardUserID:(NSString *_Nullable)userID
+                                              roomID:(NSString *_Nullable)roomID
+                                            username:(NSString *_Nullable)username
+                                     avatarUrlString:(NSString *_Nullable)avatarUrlString
+                                               cover:(NSString *_Nullable)cover
+                                             pullUrl:(NSString *_Nullable)pullUrl
+                                               title:(NSString *_Nullable)title;
+
+
+
+
+
+/**
+ 发送网络图片消息
+
+ @param imageUrl 图片网络地址
+ @param complete 消息体
+ @param failure 错误对象
+ */
++ (void)messageWithImageUrl:(NSString *_Nullable)imageUrl
+                   complete:(void (^_Nullable)(NIMMessage *_Nullable message))complete
+                    failure:(void (^_Nullable)(id _Nullable error))failure;
+
+/**
+ 发送网络贴图消息
+
+ @param chartletUrl 贴图网络地址
+ @param chartletThumbnail 贴图缩略图地址
+ @param complete 消息体
+ @param failure 错误对象
+ */
++ (void)messageWithChartletUrl:(NSString *_Nullable)chartletUrl
+             chartletThumbnail:(NSString *_Nullable)chartletThumbnail
+                      complete:(void (^_Nullable)(NIMMessage *_Nullable message))complete
+                       failure:(void (^_Nullable)(id _Nullable error))failure;
+
+/**
+ 发送网络视频消息
+
+ @param videoUrl 视频网络地址
+ @param videoCoverUrl 视频封面网络地址
+ @param complete 消息体
+ @param failure 错误对象
+ */
++ (void)messageWithVideoUrl:(NSString *_Nullable)videoUrl
+              videoCoverUrl:(NSString *_Nullable)videoCoverUrl
+                   complete:(void (^_Nullable)(NIMMessage *_Nullable message))complete
+                    failure:(void (^_Nullable)(id _Nullable error))failure;
+@end

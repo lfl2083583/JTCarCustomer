@@ -1,0 +1,160 @@
+//
+//  NIMShowEmoticon.m
+//  JTSocial
+//
+//  Created by apple on 2017/7/21.
+//  Copyright © 2017年 JTTeam. All rights reserved.
+//
+
+#define kShowMaxWidth  212
+#define kShowHeight  107
+
+#import "NIMShowEmoticon.h"
+#import "UIImage+Chat.h"
+
+@implementation NIMEomticonCollectionViewCell
+
+- (instancetype)initWithFrame:(CGRect)frame
+{
+    self = [super initWithFrame:frame];
+    if (self) {
+        [self addSubview:self.photo];
+    }
+    return self;
+}
+
+- (FLAnimatedImageView *)photo
+{
+    if (!_photo) {
+        _photo = [[FLAnimatedImageView alloc] initWithFrame:self.bounds];
+        _photo.contentMode = UIViewContentModeScaleAspectFill;
+        _photo.clipsToBounds = YES;
+    }
+    return _photo;
+}
+
+@end
+
+@interface NIMShowEmoticon () <UICollectionViewDelegate, UICollectionViewDataSource>
+{
+    NSTimer *_timer;
+}
+
+@property (strong, nonatomic) UIImageView *bubble;
+@property (strong, nonatomic) UICollectionView *collectionview;
+
+@end
+
+@implementation NIMShowEmoticon
+
+- (instancetype)initWithDelegate:(id<NIMShowEmoticonDelegate>)delegate
+{
+    self = [super init];
+    if (self) {
+        _delegate = delegate;
+        [self setBackgroundColor:[UIColor clearColor]];
+        [self initSubview];
+    }
+    return self;
+}
+
+- (void)initSubview
+{
+    _bubble = [[UIImageView alloc] init];
+    [self addSubview:self.bubble];
+
+    UICollectionViewFlowLayout *_layout = [UICollectionViewFlowLayout new];
+    _layout.itemSize = CGSizeMake(70, 70);
+    _layout.sectionInset = UIEdgeInsetsMake(15, 15, 15, 15);
+    _layout.minimumLineSpacing = 15;
+    _layout.minimumInteritemSpacing = 15;
+    _layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+    _collectionview = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:_layout];
+    _collectionview.dataSource = self;
+    _collectionview.delegate = self;
+    _collectionview.backgroundColor = [UIColor clearColor];
+    _collectionview.showsHorizontalScrollIndicator = NO;
+    [self.collectionview registerClass:[NIMEomticonCollectionViewCell class] forCellWithReuseIdentifier:eomticonIdentifier];
+    [self addSubview:self.collectionview];
+}
+
+- (void)setItems:(NSArray *)items
+{
+    _items = items;
+    [_timer invalidate];
+    if (items && items.count > 0) {
+        self.hidden = NO;
+        UICollectionViewFlowLayout *layout = (UICollectionViewFlowLayout *)self.collectionview.collectionViewLayout;
+
+        CGFloat width = MIN(((layout.itemSize.width + layout.sectionInset.right) * items.count + layout.sectionInset.left), kShowMaxWidth);
+        CGFloat left = App_Frame_Width - width;
+        self.frame = CGRectMake(left, -kShowHeight, width, kShowHeight);
+        self.bubble.frame = self.bounds;
+        self.bubble.image = [[UIImage jt_imageInKit:@"EomticonBubble"] resizableImageWithCapInsets:UIEdgeInsetsMake(18, 10, 18, 50) resizingMode:UIImageResizingModeStretch];
+        self.collectionview.frame = CGRectMake(0, 0, width, (layout.itemSize.width + layout.sectionInset.top  + layout.sectionInset.bottom));
+        [self starTimer];
+    }
+    else
+    {
+        self.hidden = YES;
+        self.frame = CGRectZero;
+        self.collectionview.frame = CGRectZero;
+    }
+    [self.collectionview reloadData];
+}
+- (void)starTimer
+{
+    _timer = [NSTimer timerWithTimeInterval:3 target:self selector:@selector(handleHideTimer:) userInfo:nil repeats:NO];
+    [[NSRunLoop currentRunLoop] addTimer:_timer forMode:NSRunLoopCommonModes];
+}
+
+- (void)stopTimer
+{
+    [_timer invalidate];
+    _timer = nil;
+}
+
+- (void)handleHideTimer:(NSTimer *)timer {
+    
+    [self stopTimer];
+    self.items = nil;
+}
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section;
+{
+    return self.items.count;
+}
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    NIMEomticonCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:eomticonIdentifier forIndexPath:indexPath];
+    [cell.photo sd_setImageWithURL:[NSURL URLWithString:self.items[indexPath.row][@"gif"]]];
+    return cell;
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (_delegate && [_delegate respondsToSelector:@selector(showEmoticon:didSelectAtSource:)]) {
+        [_delegate showEmoticon:self didSelectAtSource:self.items[indexPath.row]];
+    }
+}
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+    if (_timer != nil) {
+        [self stopTimer];
+    }
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+    if (_timer == nil) {
+        [self starTimer];
+    }
+}
+
+- (void)dealloc
+{
+    [_timer invalidate];
+}
+@end

@@ -1,0 +1,140 @@
+//
+//  NIMInputEmoticonTabView.m
+//  NIMKit
+//
+//  Created by chris.
+//  Copyright (c) 2015年 NetEase. All rights reserved.
+//
+
+#import "NIMInputEmoticonTabView.h"
+#import "NIMInputEmoticonManager.h"
+#import "UIImage+Chat.h"
+
+const NSInteger NIMInputEmoticonTabViewHeight = 35;
+const NSInteger NIMInputEmoticonSendButtonWidth = 50;
+
+static NSString *emoticonTabCellIdentifier = @"EmoticonTabCollectionViewCell";
+
+@implementation EmoticonTabCollectionViewCell
+
+- (instancetype)initWithFrame:(CGRect)frame
+{
+    self = [super initWithFrame:frame];
+    if (self) {
+        _imageview = [[UIImageView alloc] init];
+        _imageview.clipsToBounds = YES;
+        [self addSubview:_imageview];
+    }
+    return self;
+}
+@end
+
+@interface NIMInputEmoticonTabView()
+{
+    NSInteger _selectIndex;
+}
+@property (nonatomic, strong) NSMutableArray * tabs;
+
+@end
+
+@implementation NIMInputEmoticonTabView
+
+- (instancetype)initWithFrame:(CGRect)frame{
+    self = [super initWithFrame:CGRectMake(0, 0, frame.size.width, NIMInputEmoticonTabViewHeight)];
+    if (self) {
+        
+        _selectIndex = -1;
+        
+        _tabs = [[NSMutableArray alloc] init];
+        
+        _addEmoticonButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_addEmoticonButton setImage:[UIImage jt_imageInKit:@"tab_addEmoticon"] forState:UIControlStateNormal];
+        [_addEmoticonButton setBackgroundColor:[UIColor whiteColor]];
+        _addEmoticonButton.height = NIMInputEmoticonTabViewHeight;
+        _addEmoticonButton.width = NIMInputEmoticonSendButtonWidth;
+        [self addSubview:_addEmoticonButton];
+        
+        UICollectionViewFlowLayout *_collectionLayout = [UICollectionViewFlowLayout new];
+        _collectionLayout.minimumLineSpacing = 0;
+        _collectionLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+        _collectionLayout.sectionInset = UIEdgeInsetsZero;
+        _collectionLayout.itemSize = CGSizeMake(NIMInputEmoticonSendButtonWidth, NIMInputEmoticonTabViewHeight);
+        _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:_collectionLayout];
+        _collectionView.dataSource = self;
+        _collectionView.delegate = self;
+        _collectionView.backgroundColor = [UIColor whiteColor];
+        _collectionView.showsHorizontalScrollIndicator = NO;
+        [_collectionView registerClass:[EmoticonTabCollectionViewCell class] forCellWithReuseIdentifier:emoticonTabCellIdentifier];
+        _collectionView.height = NIMInputEmoticonTabViewHeight;
+        _collectionView.width = self.width-2*NIMInputEmoticonSendButtonWidth;
+        [self addSubview:_collectionView];
+
+        _sendButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_sendButton setTitle:@"发送" forState:UIControlStateNormal];
+        _sendButton.titleLabel.font = Font(13);
+        [_sendButton setBackgroundColor:YellowColor];
+        _sendButton.height = NIMInputEmoticonTabViewHeight;
+        _sendButton.width = NIMInputEmoticonSendButtonWidth;
+        [self addSubview:_sendButton];
+        
+        _settingButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_settingButton setImage:[UIImage jt_imageInKit:@"tab_setEmoticon"] forState:UIControlStateNormal];
+        [_settingButton setBackgroundColor:[UIColor whiteColor]];
+        _settingButton.height = NIMInputEmoticonTabViewHeight;
+        _settingButton.width = NIMInputEmoticonSendButtonWidth;
+        [self addSubview:_settingButton];
+    }
+    return self;
+}
+
+- (void)loadCatalogs:(NSArray *)emoticonCatalogs
+{
+    [_tabs removeAllObjects];
+    [_tabs addObjectsFromArray:emoticonCatalogs];
+    [_collectionView reloadData];
+}
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    return self.tabs.count;
+}
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    EmoticonTabCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:emoticonTabCellIdentifier forIndexPath:indexPath];
+    NIMInputEmoticonCatalog * catelog = self.tabs[indexPath.row];
+    if (indexPath.row == 0 || indexPath.row == 1) {
+        cell.imageview.image = (indexPath.row == 0)?[UIImage jt_fetchImage:catelog.iconPressed]:[UIImage jt_imageInKit:catelog.iconPressed];
+        cell.imageview.frame = CGRectMake((NIMInputEmoticonSendButtonWidth-20)/2, (NIMInputEmoticonTabViewHeight-20)/2, 20, 20);
+    }
+    else
+    {
+        [cell.imageview sd_setImageWithURL:[NSURL URLWithString:[catelog.iconPressed avatarHandleWithSquare:60]]];
+        cell.imageview.frame = CGRectMake((NIMInputEmoticonSendButtonWidth-30)/2, (NIMInputEmoticonTabViewHeight-30)/2, 30, 30);
+    }
+    cell.backgroundColor = (indexPath.row == _selectIndex)?UIColorFromRGB(0xf6f6f6):[UIColor whiteColor];
+    return cell;
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    [self selectTabIndex:indexPath.row];
+    if ([self.delegate respondsToSelector:@selector(tabView:didSelectTabIndex:)]) {
+        [self.delegate tabView:self didSelectTabIndex:indexPath.row];
+    }
+}
+
+- (void)selectTabIndex:(NSInteger)index {
+    _selectIndex = index;
+    _settingButton.hidden = !index;
+    _sendButton.hidden = index;
+    [self.collectionView reloadData];
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    _sendButton.right = self.width;
+    _addEmoticonButton.left = 0;
+    _collectionView.left = NIMInputEmoticonSendButtonWidth;
+    _settingButton.right = self.width;
+}
+@end
+

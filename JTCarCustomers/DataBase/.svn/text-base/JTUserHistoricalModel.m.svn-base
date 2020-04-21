@@ -1,0 +1,22 @@
+//
+//  JTUserHistoricalModel.m
+//  JTSocial
+//
+//  Created by apple on 2017/6/27.
+//  Copyright © 2017年 JTTeam. All rights reserved.
+//
+
+#import "JTUserHistoricalModel.h"
+
+@implementation JTUserHistoricalModel
+
+- (instancetype)initWithHistoricalType:(NSInteger)historicalType historicalValue:(NSString *)historicalValue
+{
+    self = [super init];
+    if (self) {
+        _historicalType = historicalType;
+        _historicalValue = historicalValue;
+    }
+    return self;
+}
+@end

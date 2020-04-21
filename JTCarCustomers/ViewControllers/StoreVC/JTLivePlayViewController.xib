@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" colorMatched="YES">
+    <device id="retina4_7" orientation="landscape">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="JTLivePlayViewController">
+            <connections>
+                <outlet property="activityIndicatorView" destination="4K7-Kd-Awc" id="gUz-9q-36b"/>
+                <outlet property="connectView" destination="wlA-Fv-T2i" id="CYx-12-kot"/>
+                <outlet property="loadingView" destination="qde-aX-70z" id="xaj-n1-VZr"/>
+                <outlet property="operationView" destination="DMX-KE-DWa" id="ErU-Uo-yPq"/>
+                <outlet property="promptLB" destination="EG6-1z-c5e" id="tnn-KI-yS1"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="DkP-cp-Oz2">
+                    <rect key="frame" x="607" y="87" width="40" height="40"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                    <state key="normal" image="bt_visualAngle"/>
+                    <connections>
+                        <action selector="angleClick:" destination="-1" eventType="touchUpInside" id="BvN-ND-kuw"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Odt-Af-hxi">
+                    <rect key="frame" x="607" y="167" width="40" height="40"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                    <state key="normal" image="bt_shareLive"/>
+                    <connections>
+                        <action selector="shareClick:" destination="-1" eventType="touchUpInside" id="SAg-NU-FMb"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Vue-DW-PJg">
+                    <rect key="frame" x="609" y="247" width="40" height="40"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                    <state key="normal" image="bt_closeLive"/>
+                    <connections>
+                        <action selector="closeClick:" destination="-1" eventType="touchUpInside" id="0J8-lE-qqp"/>
+                    </connections>
+                </button>
+                <view contentMode="scaleToFill" misplaced="YES" id="DMX-KE-DWa">
+                    <rect key="frame" x="20" y="210" width="145" height="145"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <subviews>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="bg_liveClick" id="Ur0-0j-Qu1">
+                            <rect key="frame" x="0.0" y="0.0" width="145" height="145"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        </imageView>
+                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="9YM-Ti-fYF">
+                            <rect key="frame" x="42" y="0.0" width="60" height="60"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <state key="normal" image="bt_liveUp"/>
+                            <connections>
+                                <action selector="downClick:" destination="-1" eventType="touchDown" id="eZe-xY-mHa"/>
+                                <action selector="upClick:" destination="-1" eventType="touchUpInside" id="bLK-7c-T7X"/>
+                                <action selector="upClick:" destination="-1" eventType="touchUpOutside" id="oTB-D6-Ypd"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" tag="3" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="PUb-H1-kkP">
+                            <rect key="frame" x="85" y="42" width="60" height="60"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <state key="normal" image="bt_liveRight"/>
+                            <connections>
+                                <action selector="downClick:" destination="-1" eventType="touchDown" id="Mv3-Dw-FYw"/>
+                                <action selector="upClick:" destination="-1" eventType="touchUpInside" id="ITz-lF-znG"/>
+                                <action selector="upClick:" destination="-1" eventType="touchUpOutside" id="QRy-Zh-EnH"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" tag="1" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="JKP-ec-UON">
+                            <rect key="frame" x="42" y="85" width="60" height="60"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <state key="normal" image="bt_liveDown"/>
+                            <connections>
+                                <action selector="downClick:" destination="-1" eventType="touchDown" id="87j-P3-Ugj"/>
+                                <action selector="upClick:" destination="-1" eventType="touchUpInside" id="Ca8-gq-d4q"/>
+                                <action selector="upClick:" destination="-1" eventType="touchUpOutside" id="Vya-gM-DTM"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" tag="2" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Kp4-2C-Kr2">
+                            <rect key="frame" x="0.0" y="42" width="60" height="60"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <state key="normal" image="bt_liveLeft"/>
+                            <connections>
+                                <action selector="downClick:" destination="-1" eventType="touchDown" id="8fk-WN-JRx"/>
+                                <action selector="upClick:" destination="-1" eventType="touchUpInside" id="jPU-1P-6VW"/>
+                                <action selector="upClick:" destination="-1" eventType="touchUpOutside" id="wEL-kU-FGW"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                </view>
+                <view contentMode="scaleToFill" misplaced="YES" id="qde-aX-70z">
+                    <rect key="frame" x="298" y="162" width="70" height="50"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="加载中…" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="iED-jn-NtJ">
+                            <rect key="frame" x="0.0" y="30" width="70" height="20"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                            <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" style="white" id="4K7-Kd-Awc">
+                            <rect key="frame" x="25" y="0.0" width="20" height="20"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        </activityIndicatorView>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                </view>
+                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="该工位直播已结束" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="EG6-1z-c5e">
+                    <rect key="frame" x="233" y="177" width="200" height="20"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                    <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <view hidden="YES" contentMode="scaleToFill" misplaced="YES" id="wlA-Fv-T2i">
+                    <rect key="frame" x="243" y="152" width="180" height="70"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="icon_loading" id="08k-kb-0EW">
+                            <rect key="frame" x="69" y="0.0" width="42" height="39"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                        <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="直播中断，点击重试" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="2nl-bH-nef">
+                            <rect key="frame" x="0.0" y="50" width="180" height="20"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                            <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <gestureRecognizers/>
+                    <connections>
+                        <outletCollection property="gestureRecognizers" destination="o4d-MB-cfX" appends="YES" id="kmK-Q6-Sui"/>
+                    </connections>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <point key="canvasLocation" x="33.5" y="53.5"/>
+        </view>
+        <tapGestureRecognizer id="o4d-MB-cfX">
+            <connections>
+                <action selector="reconnectClick:" destination="-1" id="xBG-tx-nDf"/>
+            </connections>
+        </tapGestureRecognizer>
+    </objects>
+    <resources>
+        <image name="bg_liveClick" width="145" height="145"/>
+        <image name="bt_closeLive" width="37" height="31"/>
+        <image name="bt_liveDown" width="60" height="60"/>
+        <image name="bt_liveLeft" width="60" height="60"/>
+        <image name="bt_liveRight" width="60" height="60"/>
+        <image name="bt_liveUp" width="60" height="60"/>
+        <image name="bt_shareLive" width="37" height="31"/>
+        <image name="bt_visualAngle" width="40" height="40"/>
+        <image name="icon_loading" width="42" height="39"/>
+    </resources>
+</document>

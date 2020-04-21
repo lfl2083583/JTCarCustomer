@@ -1,0 +1,63 @@
+//
+//  ZTDataBase.m
+//  JTDirectSeeding
+//
+//  Created by apple on 2017/5/17.
+//  Copyright © 2017年 JTTeam. All rights reserved.
+//
+
+#import "ZTDataBase.h"
+
+@implementation ZTDataBase
+
+- (void)openDB:(NSString *)tableName
+{
+    NSString *path = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0] stringByAppendingPathComponent:@"IphoneDB"];
+    if (sqlite3_open([path UTF8String], &_db)==SQLITE_OK) {
+        
+        NSLog(@"sqlite3_open: success");
+    }
+    NSString *sql = nil;
+    if ([tableName isEqualToString:kUserRelationsTable]) {
+        sql = [[NSString alloc] initWithFormat:@"create table if not exists %@ (numberID Integer primary key, userID text, relationsStauts text, yunxinID text)", tableName];
+    }
+    else if ([tableName isEqualToString:kUserHistoricalTable])
+    {
+        sql = [[NSString alloc] initWithFormat:@"create table if not exists %@ (numberID Integer primary key, historicalType Integer, historicalValue text)", tableName];
+    }
+    else if ([tableName isEqualToString:kDynamicNoticeMessageTable])
+    {
+        sql = [[NSString alloc] initWithFormat:@"create table if not exists %@ (numberID Integer primary key,toUserId text, systemNoticType Integer, dynamicType Integer, dynamicId text, dynamicContent text, avatarUrl text, nikeName text, commentTime text, commentId text, commentContent text, coverUrl text, status Integer)", tableName];
+    }
+    else if ([tableName isEqualToString:kDynamicUnReadCountTable])
+    {
+        sql = [[NSString alloc] initWithFormat:@"create table if not exists %@ (numberID Integer primary key, userId  text, newDynamicCount Integer, unReadCommentCount Integer)", tableName];
+    }
+    else
+    {
+        sql = [[NSString alloc] initWithFormat:@"create table if not exists %@ (numberID Integer primary key, sessionID text, background text)", tableName];
+    }
+    [self execute:sql];
+}
+
+- (void)closeDB
+{
+    if (_db) {
+        if (sqlite3_close(_db)==SQLITE_OK) {
+            NSLog(@"sqlite3_close: success");
+        }
+    }
+}
+
+- (void)execute:(NSString *)sql
+{
+    char *message;
+    
+    if (sqlite3_exec(_db, [sql UTF8String], NULL, NULL, &message)==SQLITE_OK) {
+        
+        NSLog(@"sqlite3_exec: success");
+    }
+    sqlite3_free(message);
+}
+
+@end

@@ -1,0 +1,23 @@
+//
+//  JTUserRelationsModel.m
+//  JTDirectSeeding
+//
+//  Created by apple on 2017/5/16.
+//  Copyright © 2017年 JTTeam. All rights reserved.
+//
+
+#import "JTUserRelationsModel.h"
+
+@implementation JTUserRelationsModel
+
+- (instancetype)initWithUserID:(NSString *)userID relationsStauts:(NSString *)relationsStauts yunxinID:(NSString *)yunxinID
+{
+    self = [super init];
+    if (self) {
+        _userID = userID;
+        _relationsStauts = relationsStauts;
+        _yunxinID = yunxinID;
+    }
+    return self;
+}
+@end

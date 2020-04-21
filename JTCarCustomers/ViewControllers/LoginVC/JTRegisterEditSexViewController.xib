@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="JTRegisterEditSexViewController">
+            <connections>
+                <outlet property="comfirmBtn" destination="8VM-r4-jIk" id="7Sv-IQ-8JO"/>
+                <outlet property="dataPickerView" destination="gkx-pE-Y1j" id="tTB-jl-NCp"/>
+                <outlet property="leftLabel" destination="04b-by-Vdb" id="fxw-cd-kQk"/>
+                <outlet property="manBtn" destination="9kn-9P-3l5" id="2Se-rt-b6N"/>
+                <outlet property="rightLabel" destination="tYH-Jb-zLN" id="blb-Iz-Nr7"/>
+                <outlet property="topConstraint" destination="Cgu-wU-zRz" id="xdG-UW-PVB"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+                <outlet property="womanBtn" destination="HQv-Dx-g0b" id="eE6-a6-1HK"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" insetsLayoutMarginsFromSafeArea="NO" text="性别&amp;生日" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Chx-Ge-QN9">
+                    <rect key="frame" x="24" y="59" width="335" height="40"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="40" id="ddw-44-Avc"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="28"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="P1K-El-Hai">
+                    <rect key="frame" x="22" y="139" width="8" height="8"/>
+                    <color key="backgroundColor" red="0.32549019607843138" green="0.72156862745098038" blue="0.28235294117647058" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="8" id="X4f-Rf-Ei2"/>
+                        <constraint firstAttribute="width" constant="8" id="gM0-gc-wcy"/>
+                    </constraints>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                            <integer key="value" value="4"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="性别" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GDY-XI-pwy">
+                    <rect key="frame" x="38" y="133" width="42" height="21"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="42" id="3B6-Yi-34U"/>
+                        <constraint firstAttribute="height" constant="21" id="6ee-Bf-PCN"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                    <color key="textColor" red="0.26666666666666666" green="0.26666666666666666" blue="0.26666666666666666" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" clipsSubviews="YES" tag="10" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9kn-9P-3l5" userLabel="man">
+                    <rect key="frame" x="82" y="180" width="74" height="74"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="74" id="EMv-HE-WcW"/>
+                        <constraint firstAttribute="width" constant="74" id="NpI-K5-ZGT"/>
+                    </constraints>
+                    <state key="normal" image="login_sex_boys"/>
+                    <state key="selected" image="login_sex_boys_selected"/>
+                    <connections>
+                        <action selector="genderChooseClick:" destination="-1" eventType="touchUpInside" id="5r6-1S-HlV"/>
+                    </connections>
+                </button>
+                <button opaque="NO" clipsSubviews="YES" tag="20" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HQv-Dx-g0b" userLabel="woman">
+                    <rect key="frame" x="229" y="180" width="74" height="74"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="74" id="A33-8K-yFy"/>
+                        <constraint firstAttribute="width" constant="74" id="JXP-HV-AJp"/>
+                    </constraints>
+                    <state key="normal" image="login_sex_girl"/>
+                    <state key="selected" image="login_sex_girl_selected"/>
+                    <connections>
+                        <action selector="genderChooseClick:" destination="-1" eventType="touchUpInside" id="hwX-Qf-1rN"/>
+                    </connections>
+                </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="我是男生" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="04b-by-Vdb">
+                    <rect key="frame" x="82" y="266" width="74" height="21"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="74" id="Ob1-OT-jrn"/>
+                        <constraint firstAttribute="height" constant="21" id="TH3-RW-Ukh"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                    <color key="textColor" red="0.41176470588235292" green="0.52941176470588236" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="我是女生" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tYH-Jb-zLN">
+                    <rect key="frame" x="229" y="266" width="74" height="21"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="21" id="twq-n3-D9N"/>
+                        <constraint firstAttribute="width" constant="74" id="wkn-Fn-TVu"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                    <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8VM-r4-jIk">
+                    <rect key="frame" x="147.5" y="590" width="80" height="38"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="38" id="AR0-aG-Nhn"/>
+                        <constraint firstAttribute="width" constant="80" id="aMo-qF-kzC"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                    <state key="normal" title="确定">
+                        <color key="titleColor" red="0.26666666666666666" green="0.26666666666666666" blue="0.26666666666666666" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </state>
+                    <connections>
+                        <action selector="comfirmClick:" destination="-1" eventType="touchUpInside" id="eaS-7C-bjQ"/>
+                    </connections>
+                </button>
+                <datePicker contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" minuteInterval="1" useCurrentDate="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gkx-pE-Y1j">
+                    <rect key="frame" x="57" y="332" width="260" height="160"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="160" id="9AJ-BR-0np"/>
+                        <constraint firstAttribute="width" constant="260" id="kE2-c1-h8M"/>
+                    </constraints>
+                    <date key="date" timeIntervalSinceReferenceDate="541932477.89484298">
+                        <!--2018-03-05 08:47:57 +0000-->
+                    </date>
+                    <locale key="locale" localeIdentifier="zh_CN"/>
+                </datePicker>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="tYH-Jb-zLN" firstAttribute="top" secondItem="HQv-Dx-g0b" secondAttribute="bottom" constant="12" id="3eq-r6-aKk"/>
+                <constraint firstItem="GDY-XI-pwy" firstAttribute="leading" secondItem="P1K-El-Hai" secondAttribute="trailing" constant="8" id="8L9-wm-c2s"/>
+                <constraint firstItem="HQv-Dx-g0b" firstAttribute="top" secondItem="9kn-9P-3l5" secondAttribute="bottom" constant="-74" id="98d-Pl-V3n"/>
+                <constraint firstItem="9kn-9P-3l5" firstAttribute="top" secondItem="GDY-XI-pwy" secondAttribute="bottom" constant="26" id="CNb-2N-cs0"/>
+                <constraint firstItem="Chx-Ge-QN9" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="59" id="Cgu-wU-zRz"/>
+                <constraint firstItem="P1K-El-Hai" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="22" id="Ncv-oz-XdD"/>
+                <constraint firstItem="9kn-9P-3l5" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="82" id="Roh-7n-m4a"/>
+                <constraint firstItem="tYH-Jb-zLN" firstAttribute="centerX" secondItem="HQv-Dx-g0b" secondAttribute="centerX" id="TU1-iz-Dah"/>
+                <constraint firstItem="04b-by-Vdb" firstAttribute="top" secondItem="9kn-9P-3l5" secondAttribute="bottom" constant="12" id="U8w-Hn-tNJ"/>
+                <constraint firstItem="gkx-pE-Y1j" firstAttribute="top" secondItem="tYH-Jb-zLN" secondAttribute="bottom" constant="45" id="W9Q-TQ-xBf"/>
+                <constraint firstItem="gkx-pE-Y1j" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="b8x-qb-62H"/>
+                <constraint firstItem="8VM-r4-jIk" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="cmR-sx-nxc"/>
+                <constraint firstItem="Chx-Ge-QN9" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="24" id="dJz-Pd-bkt"/>
+                <constraint firstItem="GDY-XI-pwy" firstAttribute="centerY" secondItem="P1K-El-Hai" secondAttribute="centerY" id="fOR-Lg-2TT"/>
+                <constraint firstAttribute="trailing" secondItem="Chx-Ge-QN9" secondAttribute="trailing" constant="16" id="fW1-2b-b7X"/>
+                <constraint firstAttribute="bottom" secondItem="8VM-r4-jIk" secondAttribute="bottom" constant="39" id="kvu-FV-5lA"/>
+                <constraint firstItem="P1K-El-Hai" firstAttribute="top" secondItem="Chx-Ge-QN9" secondAttribute="bottom" constant="40" id="lWE-ny-cOL"/>
+                <constraint firstItem="04b-by-Vdb" firstAttribute="centerX" secondItem="9kn-9P-3l5" secondAttribute="centerX" id="o1E-8v-NHs"/>
+                <constraint firstAttribute="trailing" secondItem="HQv-Dx-g0b" secondAttribute="trailing" constant="72" id="rhQ-6m-hKU"/>
+            </constraints>
+            <point key="canvasLocation" x="26.5" y="51.5"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="login_sex_boys" width="74" height="74"/>
+        <image name="login_sex_boys_selected" width="76" height="76"/>
+        <image name="login_sex_girl" width="74" height="74"/>
+        <image name="login_sex_girl_selected" width="76" height="76"/>
+    </resources>
+</document>

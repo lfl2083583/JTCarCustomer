@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="JTActivityParticipateEditeViewController">
+            <connections>
+                <outlet property="contractTF" destination="yfu-Ku-vKq" id="Xid-f4-SQX"/>
+                <outlet property="nikeNameTF" destination="Ndg-bD-6X5" id="fiE-iJ-tV4"/>
+                <outlet property="topConstraint" destination="dtj-Xv-sJ5" id="1RA-wv-Ca9"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入昵称（2~8个字符）" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Ndg-bD-6X5" customClass="ZTTextField">
+                    <rect key="frame" x="36" y="84" width="302" height="40"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="40" id="4sC-mB-nSf"/>
+                    </constraints>
+                    <nil key="textColor"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits"/>
+                </textField>
+                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入你的联系方式" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="yfu-Ku-vKq" customClass="ZTTextField">
+                    <rect key="frame" x="36" y="134" width="302" height="40"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="40" id="IMI-U7-VOC"/>
+                    </constraints>
+                    <nil key="textColor"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits" keyboardType="phonePad"/>
+                </textField>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="填写你的基本联系方式" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fYs-Vl-ior">
+                    <rect key="frame" x="36" y="184" width="163" height="21"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="21" id="b2s-qS-SiV"/>
+                        <constraint firstAttribute="width" constant="163" id="lbk-4Q-TDk"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="yfu-Ku-vKq" firstAttribute="top" secondItem="Ndg-bD-6X5" secondAttribute="bottom" constant="10" id="1si-yt-dlF"/>
+                <constraint firstItem="yfu-Ku-vKq" firstAttribute="trailing" secondItem="Ndg-bD-6X5" secondAttribute="trailing" id="F87-vL-gap"/>
+                <constraint firstItem="fYs-Vl-ior" firstAttribute="leading" secondItem="yfu-Ku-vKq" secondAttribute="leading" id="JEo-e2-eEk"/>
+                <constraint firstItem="Ndg-bD-6X5" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="36" id="Np0-KL-lix"/>
+                <constraint firstItem="yfu-Ku-vKq" firstAttribute="leading" secondItem="Ndg-bD-6X5" secondAttribute="leading" id="V0O-5A-zrm"/>
+                <constraint firstItem="fYs-Vl-ior" firstAttribute="top" secondItem="yfu-Ku-vKq" secondAttribute="bottom" constant="10" id="bqX-Ou-AzX"/>
+                <constraint firstItem="Ndg-bD-6X5" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="84" id="dtj-Xv-sJ5"/>
+                <constraint firstAttribute="trailing" secondItem="Ndg-bD-6X5" secondAttribute="trailing" constant="37" id="mmq-IO-zHc"/>
+            </constraints>
+            <point key="canvasLocation" x="24.5" y="51.5"/>
+        </view>
+    </objects>
+</document>

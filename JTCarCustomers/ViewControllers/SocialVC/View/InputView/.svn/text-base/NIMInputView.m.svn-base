@@ -1,0 +1,710 @@
+//
+//  NIMInputView.m
+//  NIMKit
+//
+//  Created by chris.
+//  Copyright (c) 2015年 NetEase. All rights reserved.
+//
+
+#import "NIMInputView.h"
+#import <AVFoundation/AVFoundation.h>
+#import "NIMInputMoreContainerView.h"
+#import "NIMInputEmoticonContainerView.h"
+#import "NIMInputAudioRecordIndicatorView.h"
+#import "NIMInputEmoticonDefine.h"
+#import "NIMInputToolBar.h"
+#import "UIImage+Chat.h"
+#import "NIMInputAtCache.h"
+#import "NIMEmoticonTool.h"
+#import "JTUserListViewController.h"
+#import "JTBaseNavigationController.h"
+#import "ZTImageSize.h"
+
+@interface NIMInputView() <NIMInputToolBarDelegate, NIMInputEmoticonProtocol, NIMShowEmoticonDelegate>
+{
+    UIView  *_emoticonView;
+    NIMInputType  _inputType;
+}
+
+@property (nonatomic, strong) NIMInputAudioRecordIndicatorView *audioRecordIndicator;
+@property (nonatomic, assign) NIMAudioRecordPhase recordPhase;
+@property (nonatomic, weak) id<NIMSessionConfig> inputConfig;
+@property (nonatomic, weak) id<NIMInputDelegate> inputDelegate;
+@property (nonatomic, weak) id<NIMInputActionDelegate> actionDelegate;
+@property (nonatomic, strong) NIMInputAtCache *atCache;
+
+@property (nonatomic, assign) NIMInputStatus status;
+@property (nonatomic, assign) CGFloat containerHeight;
+
+@property (nonatomic, assign) CGFloat keyBoardFrameTop; //键盘的frame的top值，屏幕高度 - 键盘高度，由于有旋转的可能，这个值只有当 键盘弹出时才有意义。
+
+@end
+
+@implementation NIMInputView
+
+- (instancetype)initWithFrame:(CGRect)frame
+                       config:(id<NIMSessionConfig>)config
+{
+    self = [super initWithFrame:frame];
+    if (self) {
+        _recording = NO;
+        _recordPhase = AudioRecordPhaseEnd;
+        _atCache = [[NIMInputAtCache alloc] init];
+        _inputConfig = config;
+        _containerHeight = 0.f;
+        [self setBackgroundColor:WhiteColor];
+        [self addListenEvents];
+    }
+    return self;
+}
+
+- (void)didMoveToWindow
+{
+    [self setup];
+}
+
+- (void)setInputDelegate:(id<NIMInputDelegate>)delegate
+{
+    _inputDelegate = delegate;
+}
+
+- (void)setInputActionDelegate:(id<NIMInputActionDelegate>)actionDelegate
+{
+    self.actionDelegate = actionDelegate;
+}
+
+- (void)reset
+{
+    [self.toolBar setContentText:@""];
+    [self refreshStatus:NIMInputStatusText];
+}
+
+- (void)refreshStatus:(NIMInputStatus)status
+{
+    [self setStatus:status];
+    [self.toolBar update:_inputType];
+    CGFloat toolBarHeight = self.toolBar.height;
+    CGFloat width = self.superview ? self.superview.width : self.width;
+    switch (status) {
+        case NIMInputStatusText:
+        case NIMInputStatusAudio:
+        {
+            self.containerHeight = 0;
+            CGFloat height = toolBarHeight + self.containerHeight;
+            self.width = width;
+            self.height = height;
+            self.top = (self.toolBar.showsKeyboard ? self.keyBoardFrameTop : (self.superview.height - (kIsIphonex?34:0))) - self.toolBar.height;
+        }
+            break;
+        case NIMInputStatusMore:
+        {
+            self.containerHeight = self.moreContainer.height;
+            CGFloat height = toolBarHeight + self.containerHeight;
+            self.width = width;
+            self.height = height;
+            self.bottom = self.superview.height;
+        }
+            break;
+        case NIMInputStatusEmoticon:
+        {
+            self.containerHeight = self.emoticonContainer.height;
+            CGFloat height = toolBarHeight + self.containerHeight;
+            self.width = width;
+            self.height = height;
+            self.bottom = self.superview.height - (kIsIphonex?34:0);
+        }
+            break;
+        default:
+            break;
+    }
+}
+
+- (void)setFrame:(CGRect)frame
+{
+    [super setFrame:frame];
+}
+
+- (NIMInputAudioRecordIndicatorView *)audioRecordIndicator {
+    if(!_audioRecordIndicator) {
+        _audioRecordIndicator = [[NIMInputAudioRecordIndicatorView alloc] init];
+    }
+    return _audioRecordIndicator;
+}
+
+- (void)setRecordPhase:(NIMAudioRecordPhase)recordPhase {
+    NIMAudioRecordPhase prevPhase = _recordPhase;
+    _recordPhase = recordPhase;
+    self.audioRecordIndicator.phase = _recordPhase;
+    if(prevPhase == AudioRecordPhaseEnd) {
+        if(AudioRecordPhaseStart == _recordPhase) {
+            if ([_actionDelegate respondsToSelector:@selector(onStartRecording)]) {
+                [_actionDelegate onStartRecording];
+            }
+        }
+    } else if (prevPhase == AudioRecordPhaseStart || prevPhase == AudioRecordPhaseRecording) {
+        if (AudioRecordPhaseEnd == _recordPhase) {
+            if ([_actionDelegate respondsToSelector:@selector(onStopRecording)]) {
+                [_actionDelegate onStopRecording];
+            }
+        }
+    } else if (prevPhase == AudioRecordPhaseCancelling) {
+        if(AudioRecordPhaseEnd == _recordPhase) {
+            if ([_actionDelegate respondsToSelector:@selector(onCancelRecording)]) {
+                [_actionDelegate onCancelRecording];
+            }
+        }
+    }
+}
+
+- (void)setup
+{
+    if (!_toolBar)
+    {
+        _toolBar = [[NIMInputToolBar alloc] initWithFrame:CGRectMake(0, 0, self.width, 0)];
+        [self addSubview:_toolBar];
+        
+        //设置placeholder
+        [_toolBar setPlaceHolder:input_placeholder];
+        
+        //设置input bar 上的按钮
+        if ([_inputConfig respondsToSelector:@selector(inputBarItemTypes)]) {
+            NSArray *types = [_inputConfig inputBarItemTypes];
+            [_toolBar setInputBarItemTypes:types];
+        }
+        
+        _toolBar.delegate = self;
+        [_toolBar.emoticonBtn addTarget:self action:@selector(onTouchEmoticonBtn:) forControlEvents:UIControlEventTouchUpInside];
+        [_toolBar.moreMediaBtn addTarget:self action:@selector(onTouchMoreBtn:) forControlEvents:UIControlEventTouchUpInside];
+        [_toolBar.voiceBtn addTarget:self action:@selector(onTouchVoiceBtn:) forControlEvents:UIControlEventTouchUpInside];
+        [_toolBar.recordButton addTarget:self action:@selector(onTouchRecordBtnDown:) forControlEvents:UIControlEventTouchDown];
+        [_toolBar.recordButton addTarget:self action:@selector(onTouchRecordBtnDragInside:) forControlEvents:UIControlEventTouchDragInside];
+        [_toolBar.recordButton addTarget:self action:@selector(onTouchRecordBtnDragOutside:) forControlEvents:UIControlEventTouchDragOutside];
+        [_toolBar.recordButton addTarget:self action:@selector(onTouchRecordBtnUpInside:) forControlEvents:UIControlEventTouchUpInside];
+        [_toolBar.recordButton addTarget:self action:@selector(onTouchRecordBtnUpOutside:) forControlEvents:UIControlEventTouchUpOutside];
+        _toolBar.size = [_toolBar sizeThatFits:CGSizeMake(self.width, CGFLOAT_MAX)];
+        _toolBar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+        [_toolBar.recordButton setTitle:@"按住说话" forState:UIControlStateNormal];
+        [_toolBar.recordButton setTitle:@"松开结束" forState:UIControlStateHighlighted];
+        [_toolBar.recordButton setTitle:@"松开结束" forState:UIControlStateSelected];
+        [_toolBar.recordButton setHidden:YES];
+        
+        //设置最大输入字数
+        self.maxTextLength = input_maxLength;
+        
+        _inputType = InputTypeText;
+        [self refreshStatus:NIMInputStatusText];
+        [self callDidChangeHeight];
+    }
+}
+
+- (NIMInputMoreContainerView *)moreContainer
+{
+    if (!_moreContainer) {
+        _moreContainer = [[NIMInputMoreContainerView alloc] initWithFrame:CGRectMake(0,0,self.width,216+(kIsIphonex?34:0))];
+        _moreContainer.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+        _moreContainer.hidden = YES;
+        _moreContainer.config = _inputConfig;
+        _moreContainer.actionDelegate = self.actionDelegate;
+        _moreContainer.backgroundColor = BlackLeverColor1;
+        [self addSubview:_moreContainer];
+    }
+    return _moreContainer;
+}
+
+- (NIMInputEmoticonContainerView *)emoticonContainer
+{
+    if (!_emoticonContainer) {
+        _emoticonContainer = [[NIMInputEmoticonContainerView alloc] initWithFrame:CGRectMake(0,0,self.width,216)];
+        _emoticonContainer.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+        _emoticonContainer.delegate = self;
+        _emoticonContainer.hidden = YES;
+        _emoticonContainer.config = _inputConfig;
+        [self addSubview:_emoticonContainer];
+    }
+    return _emoticonContainer;
+}
+
+- (NIMShowEmoticon *)showEmotion
+{
+    if (!_showEmotion) {
+        _showEmotion = [[NIMShowEmoticon alloc] initWithDelegate:self];
+        [self addSubview:_showEmotion];
+    }
+    return _showEmotion;
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    _moreContainer.actionDelegate = nil;
+    _emoticonContainer.delegate = nil;
+}
+
+- (void)setRecording:(BOOL)recording {
+    if(recording) {
+        self.audioRecordIndicator.center = self.superview.center;
+        [self.superview addSubview:self.audioRecordIndicator];
+        self.recordPhase = AudioRecordPhaseRecording;
+    } else {
+        [self.audioRecordIndicator removeFromSuperview];
+        self.recordPhase = AudioRecordPhaseEnd;
+    }
+    _recording = recording;
+}
+
+#pragma mark - 外部接口
+- (void)setInputTextPlaceHolder:(NSString *)placeHolder
+{
+    [_toolBar setPlaceHolder:placeHolder];
+}
+
+- (void)updateVoicePower:(float)power
+{
+    self.audioRecordIndicator.power = power;
+}
+
+- (void)insertStartCharUsers:(NSArray *)users isChar:(BOOL)isChar
+{
+    NSMutableString *str = [[NSMutableString alloc] initWithString:isChar?NIMInputAtStartChar:@""];
+    for (NSString *uid in users)
+    {
+        NSString *nick = [JTUserInfoHandle showNick:uid inSession:self.session];
+        [str appendString:nick];
+        [str appendString:NIMInputAtEndChar];
+        if (![users.lastObject isEqualToString:uid]) {
+            [str appendString:NIMInputAtStartChar];
+        }
+        NIMInputAtItem *item = [[NIMInputAtItem alloc] init];
+        item.uid  = uid;
+        item.name = nick;
+        [self.atCache addAtItem:item];
+    }
+    [self.toolBar insertText:str];
+}
+
+#pragma mark - private methods
+- (void)addListenEvents
+{
+    // 显示键盘
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillChangeFrame:) name:UIKeyboardWillChangeFrameNotification object:nil];
+}
+
+#pragma mark - UIKeyboardNotification
+
+- (void)keyboardWillChangeFrame:(NSNotification *)notification
+{
+    if (!self.window) {
+        return;//如果当前vc不是堆栈的top vc，则不需要监听
+    }
+    NSDictionary *userInfo = notification.userInfo;
+    CGRect endFrame = [userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
+    CGRect beginFrame = [userInfo[UIKeyboardFrameBeginUserInfoKey] CGRectValue];
+    [self setKeyBoardFrameTop:endFrame.origin.y];
+    [self willShowKeyboardFromFrame:beginFrame toFrame:endFrame];
+}
+
+- (void)willShowKeyboardFromFrame:(CGRect)beginFrame toFrame:(CGRect)toFrame
+{
+    if (_keyBoardFrameTop == [UIScreen mainScreen].bounds.size.height) {
+        if (self.inputDelegate && [self.inputDelegate respondsToSelector:@selector(hideInputView)]) {
+            [self.inputDelegate hideInputView];
+        }
+    }
+    else
+    {
+        if (self.inputDelegate && [self.inputDelegate respondsToSelector:@selector(showInputView)]) {
+            [self.inputDelegate showInputView];
+        }
+    }
+    [self refreshStatus:self.status];
+    [self callDidChangeHeight];
+}
+
+- (void)callDidChangeHeight
+{
+    if (_inputDelegate && [_inputDelegate respondsToSelector:@selector(inputViewSizeToHeight:showInputView:)]) {
+        CGFloat bottomPadding = self.superview.height - self.top;
+        CGPoint point = [self convertPoint:CGPointMake(0, self.toolBar.bottom) toView:self.superview];
+        BOOL showInputView = point.y != self.superview.height;
+        [_inputDelegate inputViewSizeToHeight:bottomPadding showInputView:showInputView];
+    }
+}
+
+- (void)layoutSubviews
+{
+    [super layoutSubviews];
+    _moreContainer.top     = self.toolBar.bottom;
+    _emoticonContainer.top     = self.toolBar.bottom;
+}
+
+#pragma mark - button actions
+- (void)onTouchVoiceBtn:(id)sender {
+    // image change
+    if ([JTSocialStautsUtil sharedCenter].liveStatus != JTLiveStatusNone) {
+        [[HUDTool shareHUDTool] showHint:@"直播进行中，您暂时不能操作语音"];
+    }
+    else
+    {
+        if (_inputType!= InputTypeAudio) {
+            __weak typeof(self) weakself = self;
+            if ([[AVAudioSession sharedInstance] respondsToSelector:@selector(requestRecordPermission:)]) {
+                [[AVAudioSession sharedInstance] performSelector:@selector(requestRecordPermission:) withObject:^(BOOL granted) {
+                    if (granted) {
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            _inputType = InputTypeAudio;
+                            weakself.toolBar.height = 51.6;
+                            if (weakself.toolBar.showsKeyboard) {
+                                weakself.status = NIMInputStatusAudio;
+                                weakself.toolBar.showsKeyboard = NO;
+                            } else {
+                                [weakself refreshStatus:NIMInputStatusAudio];
+                                [weakself callDidChangeHeight];
+                            }
+                        });
+                    }
+                    else {
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [[[UIAlertView alloc] initWithTitle:nil
+                                                        message:@"没有麦克风权限"
+                                                       delegate:nil
+                                              cancelButtonTitle:@"确定"
+                                              otherButtonTitles:nil] show];
+                        });
+                    }
+                }];
+            }
+        }
+        else
+        {
+            if ([self.toolBar.inputBarItemTypes containsObject:@(NIMInputBarItemTypeTextAndRecord)]) {
+                _inputType = InputTypeText;
+                self.status = NIMInputStatusText;
+                self.toolBar.showsKeyboard = YES;
+            }
+        }
+    }
+}
+
+- (IBAction)onTouchRecordBtnDown:(id)sender {
+    self.recordPhase = AudioRecordPhaseStart;
+}
+
+- (IBAction)onTouchRecordBtnUpInside:(id)sender {
+    // finish Recording
+    self.recordPhase = AudioRecordPhaseEnd;
+}
+
+- (IBAction)onTouchRecordBtnUpOutside:(id)sender {
+    // cancel Recording
+    self.recordPhase = AudioRecordPhaseEnd;
+}
+
+- (IBAction)onTouchRecordBtnDragInside:(id)sender {
+    // "手指上滑，取消发送"
+    self.recordPhase = AudioRecordPhaseRecording;
+}
+
+- (IBAction)onTouchRecordBtnDragOutside:(id)sender {
+    // "松开手指，取消发送"
+    self.recordPhase = AudioRecordPhaseCancelling;
+}
+
+- (void)onTouchEmoticonBtn:(id)sender
+{
+    if (self.status != NIMInputStatusEmoticon) {
+        [self bringSubviewToFront:self.emoticonContainer];
+        [self.emoticonContainer setHidden:NO];
+        if (_moreContainer) {
+            [_moreContainer setHidden:YES];
+        }
+        if (self.toolBar.showsKeyboard) {
+            self.status = NIMInputStatusEmoticon;
+            self.toolBar.showsKeyboard = NO;
+        }
+        else
+        {
+            [self refreshStatus:NIMInputStatusEmoticon];
+            [self callDidChangeHeight];
+        }
+    }
+    else
+    {
+        self.status = NIMInputStatusText;
+        self.toolBar.showsKeyboard = YES;
+    }
+}
+
+- (void)onTouchMoreBtn:(id)sender {
+    if (self.status != NIMInputStatusMore)
+    {
+        [self bringSubviewToFront:self.moreContainer];
+        [self.moreContainer setHidden:NO];
+        if (_emoticonContainer) {
+            [_emoticonContainer setHidden:YES];
+        }
+        if (self.toolBar.showsKeyboard) {
+            self.status = NIMInputStatusMore;
+            self.toolBar.showsKeyboard = NO;
+        }
+        else
+        {
+            [self refreshStatus:NIMInputStatusMore];
+            [self callDidChangeHeight];
+        }
+    }
+    else
+    {
+        self.status = NIMInputStatusText;
+        self.toolBar.showsKeyboard = YES;
+    }
+}
+
+- (BOOL)endEditing:(BOOL)force
+{
+    BOOL endEditing = [super endEditing:force];
+    if (!self.toolBar.showsKeyboard) {
+        UIViewAnimationCurve curve = UIViewAnimationCurveEaseInOut;
+        __weak typeof(self) weakself = self;
+        void(^animations)() = ^{
+            [weakself refreshStatus:NIMInputStatusText];
+            if (weakself.inputDelegate && [weakself.inputDelegate respondsToSelector:@selector(inputViewSizeToHeight:showInputView:)]) {
+                [weakself.inputDelegate inputViewSizeToHeight:weakself.toolBar.height showInputView:NO];
+            }
+            if (_moreContainer) {
+                _moreContainer.hidden = YES;
+            }
+            if (_emoticonContainer) {
+                _emoticonContainer.hidden = YES;
+            }
+        };
+        [UIView animateWithDuration:0.25 delay:0.0f options:(curve << 16 | UIViewAnimationOptionBeginFromCurrentState) animations:animations completion:nil];
+    }
+    return endEditing;
+}
+
+#pragma mark - NIMInputToolBarDelegate
+
+- (BOOL)textViewShouldBeginEditing
+{
+    _inputType = InputTypeText;
+    self.status = NIMInputStatusText;
+    return YES;
+}
+
+- (BOOL)shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
+{
+    if ([text isEqualToString:@"\n"]) {
+        [self didPressSend:nil];
+        return NO;
+    }
+    if ([text isEqualToString:@""] && range.length == 1 ) { //非选择删除
+        return [self onTextDelete];
+    }
+    if ([text isEqualToString:NIMInputAtStartChar] && self.session.sessionType == NIMSessionTypeTeam) {
+        
+        __weak typeof(self) weakself = self;
+        [[NIMSDK sharedSDK].teamManager fetchTeamMembers:self.session.sessionId completion:^(NSError *error, NSArray *members)
+         {
+             if (!error)
+             {
+                 JTContactTeamMemberConfig *config = [[JTContactTeamMemberConfig alloc] init];
+                 config.contactSelectType = JTContactSelectTypeMulti;
+                 config.needMutiSelected = YES;
+                 config.members = members;
+                 config.teamId = weakself.session.sessionId;
+                 JTUserListViewController *userListVC = [[JTUserListViewController alloc] initWithConfig:config];
+                 userListVC.finshBlock = ^(NSArray *users) {
+                     [weakself.toolBar setShowsKeyboard:YES];
+                     [weakself insertStartCharUsers:users isChar:YES];
+                 };
+                 JTBaseNavigationController *navigationController = [[JTBaseNavigationController alloc] initWithRootViewController:userListVC];
+                 [[Utility currentViewController] presentViewController:navigationController animated:YES completion:nil];
+             }
+         }];
+    }
+    NSString *str = [self.toolBar.contentText stringByAppendingString:text];
+    return (str.length <= self.maxTextLength);
+}
+
+- (void)textViewDidChange
+{
+    if (self.toolBar.contentText.length <= 5) {
+        self.showEmotion.items = [[NIMEmoticonTool shareExpressionTool] emoticonsSearchKey:self.toolBar.contentText];
+    }
+    else
+    {
+        self.showEmotion.items = nil;
+    }
+    if (self.actionDelegate && [self.actionDelegate respondsToSelector:@selector(onTextChanged:)])
+    {
+        [self.actionDelegate onTextChanged:self];
+    }
+}
+
+- (void)toolBarDidChangeHeight:(CGFloat)height
+{
+    [self refreshStatus:self.status];
+    [self callDidChangeHeight];
+}
+
+#pragma mark - InputEmoticonProtocol
+- (void)selectedEmoticon:(NIMInputEmoticon *)emoticon catalogID:(NSString *)catalogID
+{
+    if (!catalogID) { //删除表情键
+        [self onTextDelete];
+    }
+    else
+    {
+        if ([catalogID isEqualToString:NIMKit_EmojiCatalog]) {
+            [self.toolBar insertText:emoticon.tag];
+        }
+        else if ([catalogID isEqualToString:NIMKit_EmojiCollection] && !emoticon.emoticonID) {
+            if ([self.actionDelegate respondsToSelector:@selector(onAddCollectionEmotion)]) {
+                [self.actionDelegate onAddCollectionEmotion];
+            }
+        }
+        else
+        {
+            if ([self.actionDelegate respondsToSelector:@selector(onSelectedEmoticon:)]) {
+                [self.actionDelegate onSelectedEmoticon:emoticon];
+            }
+        }
+    }
+}
+
+- (void)didPressSend:(id)sender
+{
+    if ([self.actionDelegate respondsToSelector:@selector(onSendText:atUsers:)] && [self.toolBar.contentText length] > 0) {
+        NSString *sendText = self.toolBar.contentText;
+        [self.actionDelegate onSendText:sendText atUsers:[self.atCache allAtUid:sendText]];
+        [self.atCache clean];
+        self.toolBar.contentText = @"";
+        [self.toolBar layoutIfNeeded];
+    }
+}
+
+- (void)didPressAdd:(id)sender
+{
+    if ([self.actionDelegate respondsToSelector:@selector(onAddEmoticon)]) {
+        [self.actionDelegate onAddEmoticon];
+    }
+}
+
+- (void)didPressEdit:(id)sender
+{
+    if ([self.actionDelegate respondsToSelector:@selector(onEditEmoticon)]) {
+        [self.actionDelegate onEditEmoticon];
+    }
+}
+
+#pragma mark - NIMShowEmoticonDelegate
+- (void)showEmoticon:(id)showEmoticon didSelectAtSource:(NSDictionary *)source
+{
+    self.showEmotion.items = nil;
+    self.toolBar.contentText = @"";
+    if ([self.actionDelegate respondsToSelector:@selector(onSelectedEmoticon:)]) {
+        NIMInputEmoticon *emoticon = [[NIMInputEmoticon alloc] init];
+        
+        emoticon.emoticonID    = [source objectForKey:@"emoticons_id"];
+        emoticon.imageName     = [source objectForKey:@"image"];
+        emoticon.gifName       = [source objectForKey:@"gif"];
+        emoticon.emoticonName  = [source objectForKey:@"name"];
+        emoticon.tag           = [source objectForKey:@"id"];
+        
+        __weak typeof(self) weakself = self;
+        [ZTImageSize imageWithURL:emoticon.gifName complete:^(CGSize size) {
+            emoticon.width = [NSString stringWithFormat:@"%.2f", size.width];
+            emoticon.height = [NSString stringWithFormat:@"%.2f", size.height];
+            if (emoticon) {
+                [weakself.actionDelegate onSelectedEmoticon:emoticon];
+            }
+        }];
+    }
+}
+
+- (BOOL)onTextDelete
+{
+    NSRange range = [self delRangeForEmoticon];
+    if (range.length == 1) {
+        //删的不是表情，可能是@
+        NIMInputAtItem *item = [self delRangeForAt];
+        if (item) {
+            range = item.range;
+        }
+    }
+    if (range.length > 1) {
+        [self.toolBar deleteText:range];
+        return NO;
+    }
+    return YES;
+}
+
+- (NSRange)delRangeForEmoticon
+{
+    NSString *text = self.toolBar.contentText;
+    NSRange range = [self rangeForPrefix:@"[" suffix:@"]"];
+    NSRange selectedRange = [self.toolBar selectedRange];
+    if (range.length > 1)
+    {
+        NSString *name = [text substringWithRange:range];
+        NIMInputEmoticon *icon = [[NIMInputEmoticonManager sharedManager] emoticonByTag:name];
+        range = icon? range : NSMakeRange(selectedRange.location - 1, 1);
+    }
+    return range;
+}
+
+- (NIMInputAtItem *)delRangeForAt
+{
+    NSString *text = self.toolBar.contentText;
+    NSRange range = [self rangeForPrefix:NIMInputAtStartChar suffix:NIMInputAtEndChar];
+    NSRange selectedRange = [self.toolBar selectedRange];
+    NIMInputAtItem *item = nil;
+    if (range.length > 1)
+    {
+        NSString *name = [text substringWithRange:range];
+        NSString *set = [NIMInputAtStartChar stringByAppendingString:NIMInputAtEndChar];
+        name = [name stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:set]];
+        item = [self.atCache item:name];
+        range = item? range : NSMakeRange(selectedRange.location - 1, 1);
+    }
+    item.range = range;
+    return item;
+}
+
+- (NSRange)rangeForPrefix:(NSString *)prefix suffix:(NSString *)suffix
+{
+    NSString *text = self.toolBar.contentText;
+    NSRange range = [self.toolBar selectedRange];
+    NSString *selectedText = range.length ? [text substringWithRange:range] : text;
+    NSInteger endLocation = range.location;
+    if (endLocation <= 0)
+    {
+        return NSMakeRange(NSNotFound, 0);
+    }
+    NSInteger index = -1;
+    if ([selectedText hasSuffix:suffix]) {
+        //往前搜最多20个字符，一般来讲是够了...
+        NSInteger p = 20;
+        for (NSInteger i = endLocation; i >= endLocation - p && i-1 >= 0 ; i--)
+        {
+            NSRange subRange = NSMakeRange(i - 1, 1);
+            NSString *subString = [text substringWithRange:subRange];
+            if ([subString compare:prefix] == NSOrderedSame)
+            {
+                index = i - 1;
+                break;
+            }
+        }
+    }
+    return index == -1 ? NSMakeRange(endLocation - 1, 1) : NSMakeRange(index, endLocation - index);
+}
+
+- (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event
+{
+    if (CGRectContainsPoint(self.bounds, point) || CGRectContainsPoint(self.showEmotion.frame, point)) {
+        return YES;
+    }
+    return NO;
+}
+
+@end

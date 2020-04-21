@@ -1,0 +1,362 @@
+//
+//  JTMessageMaker.m
+//  JTDirectSeeding
+//
+//  Created by apple on 2017/5/2.
+//  Copyright © 2017年 JTTeam. All rights reserved.
+//
+
+#import "JTMessageMaker.h"
+#import "JTVideoAttachment.h"
+#import "JTCardAttachment.h"
+#import "JTChartletAttachment.h"
+#import "JTGameCardAttachment.h"
+#import "JTGamePhotoAttachment.h"
+#import "JTLiveTextAttachment.h"
+#import "JTLivePraiseAttachment.h"
+#import "JTLiveFocusAttachment.h"
+#import "JTAnchorCardAttachment.h"
+#import "JTLiveShareAttachment.h"
+
+@implementation JTMessageMaker
+
++ (NIMMessage *)messageWithText:(NSString *_Nullable)text
+{
+    NIMMessage *textMessage = [[NIMMessage alloc] init];
+    textMessage.text        = text;
+    return textMessage;
+}
+
++ (NIMMessage *)messageWithTip:(NSString *_Nullable)tip
+{
+    NIMMessage *message = [[NIMMessage alloc] init];
+    NIMTipObject *tipObject = [[NIMTipObject alloc] init];
+    message.messageObject = tipObject;
+    message.text = tip;
+    NIMMessageSetting *setting = [[NIMMessageSetting alloc] init];
+    setting.apnsEnabled = NO;
+    setting.shouldBeCounted = NO;
+    message.setting = setting;
+    return message;
+}
+
++ (NIMMessage *)messageWithAudio:(NSString *_Nullable)filePath
+{
+    NIMAudioObject *audioObject = [[NIMAudioObject alloc] initWithSourcePath:filePath];
+    NIMMessage *message = [[NIMMessage alloc] init];
+    message.messageObject = audioObject;
+    message.text = QTLocalizedString(@"发来了一段语音");
+    return message;
+}
+
++ (NIMMessage *)messageWithImage:(UIImage *_Nullable)image
+{
+    NIMImageObject *imageObject = [[NIMImageObject alloc] initWithImage:image];
+    NIMImageOption *option  = [[NIMImageOption alloc] init];
+    option.compressQuality  = 0.7;
+    imageObject.option      = option;
+    return [self generateImageMessage:imageObject];
+}
+
++ (NIMMessage *)generateImageMessage:(NIMImageObject *_Nullable)imageObject
+{
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    dateFormatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
+    NSString *dateString = [dateFormatter stringFromDate:[NSDate date]];
+    imageObject.displayName = [NSString stringWithFormat:@"%@%@", QTLocalizedString(@"图片发送于"), dateString];
+    NIMMessage *message     = [[NIMMessage alloc] init];
+    message.messageObject   = imageObject;
+    message.apnsContent = QTLocalizedString(@"发来了一张图片");
+    return message;
+}
+
++ (NIMMessage *)messageWithVideo:(NSString *_Nullable)filePath
+{
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    NSString *dateString = [dateFormatter stringFromDate:[NSDate date]];
+    NIMVideoObject *videoObject = [[NIMVideoObject alloc] initWithSourcePath:filePath];
+    videoObject.displayName = [NSString stringWithFormat:@"%@%@", QTLocalizedString(@"视频发送于"),dateString];
+    NIMMessage *message = [[NIMMessage alloc] init];
+    message.messageObject = videoObject;
+    message.apnsContent = QTLocalizedString(@"发来了一段视频");
+    return message;
+}
+
++ (NIMMessage *_Nullable)messageWithVideoUrl:(NSString *_Nullable)videoUrl
+                               videoCoverUrl:(NSString *_Nullable)videoCoverUrl
+                                  videoWidth:(NSString *_Nullable)videoWidth
+                                 videoHeight:(NSString *_Nullable)videoHeight
+{
+    JTVideoAttachment *attachment = [[JTVideoAttachment alloc] initWithVideoUrl:videoUrl
+                                                                  videoCoverUrl:videoCoverUrl
+                                                                     videoWidth:videoWidth
+                                                                    videoHeight:videoHeight];
+    NIMMessage *message               = [[NIMMessage alloc] init];
+    NIMCustomObject *customObject     = [[NIMCustomObject alloc] init];
+    customObject.attachment           = attachment;
+    message.messageObject             = customObject;
+    message.apnsContent = QTLocalizedString(@"发来了一段视频");
+    return message;
+}
+
++ (NIMMessage *)messageWithLocation:(double)latitude
+                          longitude:(double)longitude
+                              title:(nullable NSString *)title
+{
+    NIMLocationObject *locationObject = [[NIMLocationObject alloc] initWithLatitude:latitude
+                                                                          longitude:longitude
+                                                                              title:title];
+    NIMMessage *message               = [[NIMMessage alloc] init];
+    message.messageObject             = locationObject;
+    message.apnsContent = QTLocalizedString(@"发来了一条位置信息");
+    return message;
+}
+
++ (NIMMessage *_Nullable)messageWithCard:(NSString *_Nullable)userID
+{
+    NIMUser *user = [[NIMSDK sharedSDK].userManager userInfo:userID];
+    JTCardAttachment *attachment = [[JTCardAttachment alloc] initWithUserId:userID
+                                                                       name:user.userInfo.nickName
+                                                                   username:@""
+                                                            avatarUrlString:[[user.userInfo.avatarUrl componentsSeparatedByString:@"?"] firstObject]];
+    NIMMessage *message               = [[NIMMessage alloc] init];
+    NIMCustomObject *customObject     = [[NIMCustomObject alloc] init];
+    customObject.attachment           = attachment;
+    message.messageObject             = customObject;
+    message.apnsContent = QTLocalizedString(@"发来了一张名片");
+    return message;
+}
+
++ (NIMMessage *_Nullable)messageWithChartlet:(NSString *_Nullable)chartletID
+                                chartletName:(NSString *_Nullable)chartletName
+                                 chartletUrl:(NSString *_Nullable)chartletUrl
+                           chartletThumbnail:(NSString *_Nullable)chartletThumbnail
+                               chartletWidth:(NSString *_Nonnull)chartletWidth
+                              chartletHeight:(NSString *_Nonnull)chartletHeight
+{
+    JTChartletAttachment *attachment = [[JTChartletAttachment alloc] initWithChartletID:chartletID
+                                                                           chartletName:chartletName
+                                                                            chartletUrl:chartletUrl
+                                                                      chartletThumbnail:chartletThumbnail
+                                                                          chartletWidth:chartletWidth
+                                                                         chartletHeight:chartletHeight];
+    NIMMessage *message               = [[NIMMessage alloc] init];
+    NIMCustomObject *customObject     = [[NIMCustomObject alloc] init];
+    customObject.attachment           = attachment;
+    message.messageObject             = customObject;
+    message.apnsContent = (chartletName && chartletName.length > 0) ? [NSString stringWithFormat:@"[%@]", chartletName] : QTLocalizedString(@"[贴图]");
+    return message;
+}
+
++ (NIMMessage *_Nullable)messageWithGameCard:(NSString *_Nullable)gameID
+                                    gameName:(NSString *_Nullable)gameName
+                                    gameIcon:(NSString *_Nullable)gameIcon
+                                   shareIcon:(NSString *_Nullable)shareIcon
+                                  shareTitle:(NSString *_Nullable)shareTitle
+                                shareContent:(NSString *_Nullable)shareContent
+                                      appKey:(NSString *_Nullable)appKey
+                                         ext:(NSString *_Nullable)ext
+{
+    JTGameCardAttachment *attachment = [[JTGameCardAttachment alloc] initWithGameID:gameID
+                                                                           gameName:gameName
+                                                                           gameIcon:gameIcon
+                                                                          shareIcon:shareIcon
+                                                                         shareTitle:shareTitle
+                                                                       shareContent:shareContent
+                                                                             appKey:appKey
+                                                                                ext:ext];
+    NIMMessage *message               = [[NIMMessage alloc] init];
+    NIMCustomObject *customObject     = [[NIMCustomObject alloc] init];
+    customObject.attachment           = attachment;
+    message.messageObject             = customObject;
+    message.apnsContent = [NSString stringWithFormat:QTLocalizedString(@"[链接] %@"), gameName];
+    return message;
+}
+
++ (NIMMessage *_Nullable)messageWithGamePhoto:(NSString *_Nullable)gameID
+                                     gameName:(NSString *_Nullable)gameName
+                                     gameIcon:(NSString *_Nullable)gameIcon
+                                    gameImage:(NSString *_Nullable)gameImage
+                                   imageWidth:(NSString *_Nullable)imageWidth
+                                  imageHeight:(NSString *_Nullable)imageHeight
+                                       appKey:(NSString *_Nullable)appKey
+{
+    JTGamePhotoAttachment *attachment = [[JTGamePhotoAttachment alloc] initWithGameID:gameID
+                                                                             gameName:gameName
+                                                                             gameIcon:gameIcon
+                                                                            gameImage:gameImage
+                                                                           imageWidth:imageWidth
+                                                                          imageHeight:imageHeight
+                                                                               appKey:appKey];
+    NIMMessage *message               = [[NIMMessage alloc] init];
+    NIMCustomObject *customObject     = [[NIMCustomObject alloc] init];
+    customObject.attachment           = attachment;
+    message.messageObject             = customObject;
+    message.apnsContent = QTLocalizedString(@"[图片]");
+    return message;
+}
+
++ (NIMMessage *_Nullable)messageWithLiveText:(NSString *_Nullable)liveText
+                                    userName:(NSString *_Nullable)userName
+                                   userGrade:(NSInteger)userGrade
+                                      isFuns:(BOOL)isFuns
+{
+    JTLiveTextAttachment *attachment    = [[JTLiveTextAttachment alloc] initWithContent:liveText
+                                                                               userName:userName
+                                                                              userGrade:userGrade
+                                                                                 isFans:isFuns];
+    NIMMessage *message                 = [[NIMMessage alloc] init];
+    NIMCustomObject *customObject       = [[NIMCustomObject alloc] init];
+    customObject.attachment             = attachment;
+    message.messageObject               = customObject;
+    return message;
+}
+
++ (NIMMessage *_Nullable)messageWithLivePraiseUserName:(NSString *_Nullable)userName
+                                             userGrade:(NSInteger)userGrade
+{
+    JTLivePraiseAttachment *attachment  = [[JTLivePraiseAttachment alloc] initWithUserName:userName
+                                                                                 userGrade:userGrade];
+    NIMMessage *message                 = [[NIMMessage alloc] init];
+    NIMCustomObject *customObject       = [[NIMCustomObject alloc] init];
+    customObject.attachment             = attachment;
+    message.messageObject               = customObject;
+    return message;
+}
+
++ (NIMMessage *_Nullable)messageWithLiveFocusUserName:(NSString *_Nullable)userName
+                                            userGrade:(NSInteger)userGrade
+                                               isFuns:(BOOL)isFuns
+{
+    JTLiveFocusAttachment *attachment   = [[JTLiveFocusAttachment alloc] initWithUserName:userName
+                                                                                userGrade:userGrade
+                                                                                   isFans:isFuns];
+    NIMMessage *message                 = [[NIMMessage alloc] init];
+    NIMCustomObject *customObject       = [[NIMCustomObject alloc] init];
+    customObject.attachment             = attachment;
+    message.messageObject               = customObject;
+    return message;
+}
+
++ (NIMMessage *_Nullable)messageWithLiveShareUserName:(NSString *_Nullable)userName
+                                            userGrade:(NSInteger)userGrade
+                                               isFuns:(BOOL)isFuns
+{
+    JTLiveShareAttachment *attachment   = [[JTLiveShareAttachment alloc] initWithUserName:userName
+                                                                                userGrade:userGrade
+                                                                                   isFans:isFuns];
+    NIMMessage *message                 = [[NIMMessage alloc] init];
+    NIMCustomObject *customObject       = [[NIMCustomObject alloc] init];
+    customObject.attachment             = attachment;
+    message.messageObject               = customObject;
+    return message;
+}
+
++ (NIMMessage *_Nullable)messageWithAnchorCardUserID:(NSString *_Nullable)userID
+                                              roomID:(NSString *_Nullable)roomID
+                                            username:(NSString *_Nullable)username
+                                     avatarUrlString:(NSString *_Nullable)avatarUrlString
+                                               cover:(NSString *_Nullable)cover
+                                             pullUrl:(NSString *_Nullable)pullUrl
+                                               title:(NSString *_Nullable)title
+{
+    JTAnchorCardAttachment *attachment  = [[JTAnchorCardAttachment alloc] initWithUserID:userID
+                                                                                  roomID:roomID
+                                                                                username:username
+                                                                         avatarUrlString:avatarUrlString
+                                                                                   cover:cover
+                                                                                 pullUrl:pullUrl
+                                                                                   title:title];
+    NIMMessage *message                 = [[NIMMessage alloc] init];
+    NIMCustomObject *customObject       = [[NIMCustomObject alloc] init];
+    customObject.attachment             = attachment;
+    message.messageObject               = customObject;
+    message.apnsContent                 = QTLocalizedString(@"发来一张主播名片");
+    return message;
+}
+
+
+
+
+
+
+
++ (void)messageWithImageUrl:(NSString *_Nullable)imageUrl
+                   complete:(void (^_Nullable)(NIMMessage *_Nullable message))complete
+                    failure:(void (^ _Nullable)(id _Nullable))failure
+{
+    __weak typeof(self) weakself = self;
+    [self getNetworkImageUrl:imageUrl success:^(UIImage * _Nullable image) {
+        complete([weakself messageWithImage:image]);
+    } failure:^(id  _Nullable error) {
+        failure(error);
+    }];
+}
+
++ (void)messageWithChartletUrl:(NSString *_Nullable)chartletUrl
+             chartletThumbnail:(NSString *_Nullable)chartletThumbnail
+                      complete:(void (^_Nullable)(NIMMessage *_Nullable message))complete
+                       failure:(void (^ _Nullable)(id _Nullable))failure
+{
+    __weak typeof(self) weakself = self;
+    [self getNetworkImageUrl:chartletThumbnail success:^(UIImage * _Nullable image) {
+        NSString *chartletWidth = [NSString stringWithFormat:@"%f", image.size.width];
+        NSString *chartletHeight = [NSString stringWithFormat:@"%f", image.size.height];
+        complete([weakself messageWithChartlet:@"" chartletName:@"" chartletUrl:chartletUrl chartletThumbnail:chartletThumbnail chartletWidth:chartletWidth chartletHeight:chartletHeight]);
+    } failure:^(id  _Nullable error) {
+        failure(error);
+    }];
+}
+
++ (void)messageWithVideoUrl:(NSString *_Nullable)videoUrl
+              videoCoverUrl:(NSString *_Nullable)videoCoverUrl
+                   complete:(void (^_Nullable)(NIMMessage *_Nullable message))complete
+                    failure:(void (^_Nullable)(id _Nullable error))failure
+{
+    __weak typeof(self) weakself = self;
+    [self getNetworkImageUrl:videoCoverUrl success:^(UIImage * _Nullable image) {
+        NSString *videoWidth = [NSString stringWithFormat:@"%f", image.size.width];
+        NSString *videoHeight = [NSString stringWithFormat:@"%f", image.size.height];
+        complete([weakself messageWithVideoUrl:videoUrl videoCoverUrl:videoCoverUrl videoWidth:videoWidth videoHeight:videoHeight]);
+    } failure:^(id  _Nullable error) {
+        failure(error);
+    }];
+}
+
++ (void)getNetworkImageUrl:(NSString *)imageUrl
+                   success:(void (^_Nullable)(UIImage *_Nullable image))success
+                   failure:(void (^_Nullable)(id _Nullable error))failure
+{
+    NSURL *URL = [NSURL URLWithString:imageUrl];
+    [[SDImageCache sharedImageCache] diskImageExistsWithKey:URL.absoluteString completion:^(BOOL isInCache) {
+        if (!isInCache) {
+            [SDWebImageManager.sharedManager loadImageWithURL:URL options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize, NSURL * _Nullable targetURL) {
+            } completed:^(UIImage * _Nullable image, NSData * _Nullable data, NSError * _Nullable error, SDImageCacheType cacheType, BOOL finished, NSURL * _Nullable imageURL) {
+                if (error) {
+                    if (failure) {
+                        failure(error);
+                    }
+                }
+                else
+                {
+                    if (success) {
+                        success(image);
+                    }
+                }
+            }];
+        }
+        else
+        {
+            UIImage *image = [[SDImageCache sharedImageCache] imageFromDiskCacheForKey:URL.absoluteString];
+            if (image) {
+                success(image);
+            }
+            else
+            {
+                failure(nil);
+            }
+        }
+    }];
+}
+@end

@@ -1,0 +1,71 @@
+//
+//  JTSocialRouterModel.m
+//  JTSocial
+//
+//  Created by apple on 2017/9/27.
+//  Copyright © 2017年 JTTeam. All rights reserved.
+//
+
+#import "JTSocialRouterModel.h"
+
+@implementation JTSocialThirdUserInfo
+
+- (instancetype)initWithGameToken:(NSString *)gameToken
+                    gameTokenTime:(NSString *)gameTokenTime
+                       gameOpenID:(NSString *)gameOpenID
+                         userName:(NSString *)userName
+                       userAvatar:(NSString *)userAvatar
+                              ext:(NSString *)ext
+{
+    self = [super init];
+    if (self) {
+        _gameToken = gameToken;
+        _gameTokenTime = gameTokenTime;
+        _gameOpenID = gameOpenID;
+        _userName = userName;
+        _userAvatar = userAvatar;
+        _ext = ext;
+    }
+    return self;
+}
+@end
+
+@implementation JTSocialThirdUrlObject
+
+- (instancetype)initWithGameID:(NSString *)gameID
+                     shareIcon:(NSString *)shareIcon
+                    shareTitle:(NSString *)shareTitle
+                  shareContent:(NSString *)shareContent
+                           ext:(NSString *)ext;
+{
+    self = [super init];
+    if (self) {
+        _gameID = gameID;
+        _shareIcon = shareIcon;
+        _shareTitle = shareTitle;
+        _shareContent = shareContent;
+        _ext = ext;
+    }
+    return self;
+}
+
+@end
+
+@implementation JTSocialThirdImageObject
+
+@end
+
+@implementation JTSocialRouterModel
+
++ (instancetype)sharedCenter
+{
+    static JTSocialRouterModel *instance = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        instance = [[JTSocialRouterModel alloc] init];
+    });
+    return instance;
+}
+
+
+@end
